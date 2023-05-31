@@ -1,6 +1,8 @@
 import pygame
 import pygame_gui
-import Song
+from Song import Song
+
+test_song = Song("countingstars.txt")
 
 pygame.init()
 
@@ -11,21 +13,25 @@ background = pygame.Surface((800, 600))
 background.fill(pygame.Color("#000000"))
 
 manager = pygame_gui.UIManager((800, 600))
-hello_button = pygame_gui.elements.UIButton(
+next_line_button = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect((350, 275), (100, 50)), text="Next line", manager=manager
+)
+current_line = ""
+current_line_box = pygame_gui.elements.UITextBox(
+    html_text=current_line,
+    relative_rect=pygame.Rect((350, 275), (200, 50), manager=manager),
 )
 clock = pygame.time.Clock()
 is_running = True
 
 while is_running:
-    test_song = Song("countingstars.txt")
     time_delta = clock.tick(60) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            if event.ui_element == hello_button:
-                print(test_song.next_line())
+            if event.ui_element == next_line_button:
+                current_line = test_song.next_line()
         manager.process_events(event)
 
     manager.update(time_delta)

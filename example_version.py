@@ -68,6 +68,9 @@ class Type_Game:
             screen.blit(self.restart_img, (self.w / 2 - 70, self.h - 130))
             pygame.display.flip()
 
+    def redraw_bg(self):
+        self.screen.blit(self.bg_img, (0, 0))
+        self.write_text(self.screen, "Typing Game", 80, 72, self.color_heading)
     def restart_game(self):
         # time.sleep(1)
         self.reset = False
@@ -76,12 +79,10 @@ class Type_Game:
         self.start_time = 0
         self.total_time = 0
         self.wpm = 0
-        self.word = get_sentence()
         self.screen.fill((0, 0, 0)) # Clears the images from screen
-        self.screen.blit(self.bg_img, (0, 0))
-        self.write_text(self.screen, "Typing Game", 80, 72, self.color_heading)
-        pygame.draw.rect(self.screen, (255, 190, 20), (50, 200, 650, 50), 3)
-        self.write_text(self.screen, self.word, 175, 24, self.color_text)
+        self.redraw_bg()
+        # pygame.draw.rect(self.screen, (255, 190, 20), (50, 200, 650, 50), 3)
+        # self.write_text(self.screen, self.word, 175, 24, self.color_text)
         pygame.display.flip()
 
     def run(self):

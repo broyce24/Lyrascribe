@@ -1,11 +1,30 @@
 import pygame, time, threading
 
-def play_music(mp3_file):
-    pygame.mixer.init()
-    pygame.mixer.music.load(mp3_file)
-    pygame.mixer.music.play()
 
+class Song:
+    def __init__(self, initial_delay, delays, lyrics):
+        self.initial_delay = initial_delay
+        self.delays = delays
+        self.lyrics = lyrics
 
+    def play_music(self, mp3_file):
+        pygame.mixer.init()
+        pygame.mixer.music.load(mp3_file)
+        pygame.mixer.music.play()
+
+    def display_lyrics(self):
+        time.sleep(self.initial_delay)
+        for lyric_duration, lyric in zip(self.delays, self.lyrics):
+            print(lyric)
+            time.sleep(lyric_duration)
+
+    def play(self):
+        music_thread = threading.Thread(target=self.play_music, args=('umbrella_remix.mp3',))
+        display_thread = threading.Thread(target=self.display_lyrics)
+        music_thread.start()
+        display_thread.start()
+
+initial_delay = 1.1
 delays = [1.78,
           2.98,
           2.96,
@@ -39,26 +58,6 @@ lyrics = ["you have my heart",
           "now that it's raining more than ever",
           "know that we still have each other",
           "you can stand under my umbrella",
-          "you can stand under my umbrella",]
+          "you can stand under my umbrella", ]
 
-
-def display_lyrics():
-    initial_delay = 1.1
-    time.sleep(initial_delay)
-    for delay, lyric in zip(delays, lyrics):
-        print(lyric)
-        time.sleep(delay)
-
-
-def wait_for_input():
-    input()
-    pygame.mixer.music.stop()
-
-
-music_thread = threading.Thread(target=play_music, args=('umbrella_remix.mp3',))
-#input_thread = threading.Thread(target=wait_for_input)
-display_thread = threading.Thread(target=display_lyrics)
-
-music_thread.start()
-#input_thread.start()
-display_thread.start()
+Song(initial_delay, delays, lyrics).play()

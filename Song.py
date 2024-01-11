@@ -1,5 +1,4 @@
-import pygame, time, threading
-
+from pygame import mixer
 
 class Song:
     def __init__(self, initial_delay, delays, lyrics):
@@ -7,22 +6,13 @@ class Song:
         self.delays = delays
         self.lyrics = lyrics
 
-    def play_music(self, mp3_file):
-        pygame.mixer.init()
-        pygame.mixer.music.load(mp3_file)
-        pygame.mixer.music.play()
+    def play(self, mp3_file):
+        mixer.init()
+        mixer.music.load(mp3_file)
+        mixer.music.play()
 
-    def display_lyrics(self):
-        time.sleep(self.initial_delay)
-        for lyric_duration, lyric in zip(self.delays, self.lyrics):
-            print(lyric)
-            time.sleep(lyric_duration)
-
-    def play(self):
-        music_thread = threading.Thread(target=self.play_music, args=('umbrella_remix.mp3',))
-        display_thread = threading.Thread(target=self.display_lyrics)
-        music_thread.start()
-        display_thread.start()
+    def stop(self):
+        mixer.stop()
 
 initial_delay = 1.1
 delays = [1.78,
@@ -42,7 +32,8 @@ delays = [1.78,
           3.07,
           3.30,
           3.5]
-lyrics = ["you have my heart",
+
+lyrics= ["you have my heart",
           "we'll never be worlds apart",
           "maybe in magazines",
           "but you'll still be my star",
@@ -60,4 +51,4 @@ lyrics = ["you have my heart",
           "you can stand under my umbrella",
           "you can stand under my umbrella", ]
 
-Song(initial_delay, delays, lyrics).play()
+EXAMPLE_SONG = Song(initial_delay, delays, lyrics)

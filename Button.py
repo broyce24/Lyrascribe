@@ -3,6 +3,11 @@ import pygame
 
 class Button:
     buttons = []
+    active_buttons = []
+
+    @staticmethod
+    def clear_active_buttons():
+        Button.active_buttons.clear()
 
     def __init__(self, img_file: str, size: tuple[int, int], center: tuple[int, int], func=lambda: None):
         self.img = pygame.transform.scale(pygame.image.load(img_file), size)
@@ -15,6 +20,7 @@ class Button:
 
     def draw(self, screen: pygame.Surface):
         screen.blit(self.img, self.pos)
+        Button.active_buttons.append(self)
 
     def is_clicked(self, pos):
         try:

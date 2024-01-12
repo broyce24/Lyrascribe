@@ -1,21 +1,30 @@
 from pygame import mixer
 
+
 class Song:
-    def __init__(self, initial_delay, delays, lyrics):
-        self.initial_delay = initial_delay
+    """
+    file: filename
+    delays: the duration of each lyric. First entry is the duration of no lyrics at the start of the song.
+    lyrics: the lyrics of the song. First entry is empty.
+    """
+    def __init__(self, file, delays, lyrics):
+        self.file = file
         self.delays = delays
         self.lyrics = lyrics
 
-    def play(self, mp3_file):
+    def play(self):
+        print("playing song")
         mixer.init()
-        mixer.music.load(mp3_file)
+        mixer.music.load(self.file)
         mixer.music.play()
 
     def stop(self):
-        mixer.stop()
+        print("stopping song")
+        mixer.music.stop()
 
-initial_delay = 1.1
-delays = [1.78,
+
+delays = [1.1,
+          1.78,
           2.98,
           2.96,
           3.13,
@@ -33,7 +42,8 @@ delays = [1.78,
           3.30,
           3.5]
 
-lyrics= ["you have my heart",
+lyrics = ["",
+          "you have my heart",
           "we'll never be worlds apart",
           "maybe in magazines",
           "but you'll still be my star",
@@ -51,4 +61,4 @@ lyrics= ["you have my heart",
           "you can stand under my umbrella",
           "you can stand under my umbrella", ]
 
-EXAMPLE_SONG = Song(initial_delay, delays, lyrics)
+EXAMPLE_SONG = Song("resources/umbrella_remix.mp3", delays, lyrics)

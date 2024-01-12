@@ -13,11 +13,12 @@ import pygame_textinput
 from Button import Button
 from Song import EXAMPLE_SONG
 
-BG_IMG = "resources/background.jpg"
+BG_IMG = "resources/background2.jpg"
 LYRICS_TXT = "resources/countingstars.txt"
 RESTART_IMG = "resources/restart.png"
 PLAY_IMG = "resources/play_button.png"
-STOP_IMG = "resources/stop_button.jpg"
+STOP_IMG = "resources/stop.png"
+FONT_FILE = "resources/outlined_font.ttf"
 
 WIDTH = 750
 HEIGHT = 550
@@ -25,14 +26,12 @@ HEIGHT = 550
 PLAY_BUTTON_SIZE = (50, 50)
 PLAY_BUTTON_LOCATION = (400, 180)
 STOP_BUTTON_SIZE = (50, 50)
-STOP_BUTTON_LOCATION = (500, 180)
+STOP_BUTTON_LOCATION = (400, 180)
 RESTART_BUTTON_DIM = (100, 100)
 RESTART_BUTTON_LOCATION = (400, 400)
-
-
-def in_typing_box(pos):
-    x, y = pos
-    return 50 <= x <= 650 and 200 <= y <= 250
+LYRIC_LOCATION = (25, 250)
+LYRIC_COLOR = (2, 2, 2)
+LYRIC_SIZE = 40
 
 
 class Typer:
@@ -44,17 +43,14 @@ class Typer:
         self.color_results = (216, 222, 146)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.song_playing = False
-        self.h = 9
         self.results = "Type:0 ~ Accuracy:0 % ~ Words Per Minute:0"
         self.accuracy = "0%"
-        self.end = False
         self.wpm = 0
-        self.input_text = ""
         self.word = ""
         self.start_time = 0
         self.play_button = Button(PLAY_IMG, PLAY_BUTTON_SIZE, PLAY_BUTTON_LOCATION, self.play_song)
-        self.restart_button = Button(RESTART_IMG, RESTART_BUTTON_DIM, RESTART_BUTTON_LOCATION, self.play_song)
-        self.stop_button = Button(STOP_IMG, STOP_BUTTON_SIZE, STOP_BUTTON_LOCATION, self.restart_game)
+        self.restart_button = Button(RESTART_IMG, RESTART_BUTTON_DIM, RESTART_BUTTON_LOCATION, self.restart_game)
+        self.stop_button = Button(STOP_IMG, STOP_BUTTON_SIZE, STOP_BUTTON_LOCATION, self.stop_song)
         self.total_time = 0
         self.input_rect = pygame.Rect(50, 200, 650, 50)
         # Create TextInput-object
@@ -66,49 +62,53 @@ class Typer:
         self.bg_img = pygame.image.load(BG_IMG)
         self.bg_img = pygame.transform.scale(self.bg_img, (750, 550))
 
-    def draw_centered_text(self, text, y, font_size, text_color):
-        pass
-        font_family = pygame.font.Font("resources/Roboto-Regular.ttf", font_size)
-        text_surface = font_family.render(text, True, text_color)
-        text_box = text_surface.get_rect(center=(WIDTH / 2, y))
-        self.screen.blit(text_surface, text_box)
+    def draw_text(self, text, pos, font_size, text_color):
+        """
+        if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered at that y-coordinate.
+        """
+        text_surface = pygame.font.Font(FONT_FILE, font_size).render(text, True, text_color)
+        if isinstance(pos, tuple):
+            self.screen.blit(text_surface, pos)
+            return
+        self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, pos)))
         pygame.display.flip()
-
-    def reset_text_box(self):
-        pygame.draw.rect(self.screen, (0, 0, 0), self.input_rect)
 
     def show_result(self):
         pass
-        if not self.end:
-            self.total_time = time.time() - self.start_time
-            count = 0
-            for i, c in enumerate(self.word):
-                if self.input_text[i] == c:
-                    count += 1
-            self.accuracy = (count * 100) / len(self.word)
-            self.wpm = (len(self.input_text) * 60) / (5 * self.total_time)
-            self.end = True
-            self.results = "Time: " + str(round(self.total_time)) + " secs ~ Accuracy: " + str(
-                round(self.accuracy)) + "% ~ WPM: " + str(round(self.wpm))
-            self.restart_button.draw(self.screen)
-            pygame.display.flip()
+        self.total_time = time.time() - self.start_time
+        count = 0
+        for i, c in enumerate(self.word):
+            if self.input_text[i] == c:
+                count += 1
+        self.accuracy = (count * 100) / len(self.word)
+        self.wpm = (len(self.input_text) * 60) / (5 * self.total_time)
+        self.results = "Time: " + str(round(self.total_time)) + " secs ~ Accuracy: " + str(
+            round(self.accuracy)) + "% ~ WPM: " + str(round(self.wpm))
+        self.restart_button.draw(self.screen)
+        pygame.display.flip()
 
-    def redraw_bg(self):
+    def draw_bg(self):
         self.screen.blit(self.bg_img, (0, 0))
-        self.draw_centered_text("Typing Game", 80, 72, self.color_heading)
+        Button.clear_active_buttons()
+
+    def draw_menu_screen(self):
+        self.draw_bg()
+        self.draw_text("Typing Game", 80, 72, self.color_heading)
+
+    def draw_playing_screen(self):
+        self.draw_bg()
+        self.stop_button.draw(self.screen)
 
     def play_song(self):
-        self.song_playing = True
-        self.stop_button.draw(self.screen)
-        self.input_text = ""
-        self.start_time = time.time()
-        EXAMPLE_SONG.play("umbrella_remix.mp3")
-        time.sleep(EXAMPLE_SONG.initial_delay)
-
         self.state = "Playing"
-        # display_thread = threading.Thread(target=self.display_lyrics, args=())
+        self.song_playing = True
+        self.draw_playing_screen()
+        self.start_time = time.time()
+        EXAMPLE_SONG.play()
+
 
     def stop_song(self):
+        self.state = "Menu"
         EXAMPLE_SONG.stop()
         self.restart_game()
 
@@ -121,25 +121,18 @@ class Typer:
             exit()
 
     def restart_game(self):
-        self.reset = False
-        self.end = False
-        self.input_text = ""
         self.start_time = 0
         self.total_time = 0
         self.wpm = 0
-        self.screen.fill((0, 0, 0))  # Clears the images from screen
-        self.redraw_bg()
+        self.draw_menu_screen()
         self.play_button.draw(self.screen)
-        # pygame.draw.rect(self.screen, (255, 190, 20), (50, 200, 650, 50), 3)
-        # self.write_text(self.screen, self.word, 175, 24, self.color_text)
-        pygame.display.flip()
+        pygame.display.update()
         self.state = "Menu"
 
     def run(self):
         self.restart_game()
         self.running = True
         clock = pygame.time.Clock()
-
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -147,49 +140,39 @@ class Typer:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
-                    for button in Button.buttons:
+                    for button in Button.active_buttons:
                         if button.is_clicked(pos):
                             button.click()
                             break
-                elif event.type == pygame.KEYDOWN:
-                    if self.song_playing and not self.end:
-                        if event.key == pygame.K_RETURN:
-                            print(self.input_text)
-                            # self.show_result(self.screen)
-                            # print(self.results)
-                            self.draw_centered_text(self.results, 350, 28, self.color_results)
-                            self.end = True
-                        elif event.key == pygame.K_BACKSPACE:
-                            self.input_text = self.input_text[:-1]
-                        else:
-                            # self.input_text += event.unicode
-                            pass
 
             if self.state == "Playing":
-                self.run_game()
+                textinput = pygame_textinput.TextInputVisualizer
+                index = 0
+                t1 = pygame.time.get_ticks()
+                self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE, LYRIC_COLOR)
+                while self.state == "Playing":
+                    if pygame.time.get_ticks() - t1 >= EXAMPLE_SONG.delays[index] * 1000:
+                        index += 1
+                        t1 = pygame.time.get_ticks()
+                        self.draw_playing_screen()
+                        self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE, LYRIC_COLOR)
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.running = False
+                            sys.exit()
+                        elif event.type == pygame.MOUSEBUTTONUP:
+                            pos = pygame.mouse.get_pos()
+                            for button in Button.active_buttons:
+                                if button.is_clicked(pos):
+                                    button.click()
+                                    break
+                    events = pygame.event.get()
+                    pygame.display.update()
+                    clock.tick(60)
 
-            # self.reset_text_box()
-            self.textinput.update(pygame.event.get())
-            self.screen.blit(self.textinput.surface, (10, 10))
-            # text_surface = pygame.font.Font("Roboto-Regular.ttf", 24).render(self.input_text, True, (255, 255, 255))
-            # self.screen.blit(text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))
-            # self.input_rect.w = max(100, text_surface.get_width() + 10)
-            pygame.display.flip()
+
+            pygame.display.update()
             clock.tick(60)
-
-    state = "Menu"
-    old_time = pygame.time.get_ticks()
-    delay_index = 0
-    lyric_index = 0
-
-    def run_game(self):
-        if self.old_time - pygame.time.get_ticks() > EXAMPLE_SONG.delays[self.delay_index * 1000]:
-            self.delay_index += 1
-            old_time = pygame.time.get_ticks()
-            self.lyric_index += 1
-            text = pygame.font.Font("Roboto-Regular.ttf", 24).render(EXAMPLE_SONG.lyrics[self.lyric_index], True,
-                                                                     (84, 84, 84))
-            self.screen.blit(text, self.input_rect)
 
 
 if __name__ == "__main__":

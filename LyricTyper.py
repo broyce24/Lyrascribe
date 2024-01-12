@@ -18,7 +18,7 @@ LYRICS_TXT = "resources/countingstars.txt"
 RESTART_IMG = "resources/restart.png"
 PLAY_IMG = "resources/play_button.png"
 STOP_IMG = "resources/stop.png"
-FONT_FILE = "resources/outlined_font.ttf"
+FONT_FILE = "resources/filled_font.ttf"
 
 WIDTH = 750
 HEIGHT = 550
@@ -30,8 +30,9 @@ STOP_BUTTON_LOCATION = (400, 180)
 RESTART_BUTTON_DIM = (100, 100)
 RESTART_BUTTON_LOCATION = (400, 400)
 LYRIC_LOCATION = (25, 250)
-LYRIC_COLOR = (2, 2, 2)
+BLACK = (0, 0, 0)
 LYRIC_SIZE = 40
+WHITE = (255, 255, 255)
 
 
 class Typer:
@@ -47,6 +48,7 @@ class Typer:
         self.accuracy = "0%"
         self.wpm = 0
         self.word = ""
+        self.input_text = ""
         self.start_time = 0
         self.play_button = Button(PLAY_IMG, PLAY_BUTTON_SIZE, PLAY_BUTTON_LOCATION, self.play_song)
         self.restart_button = Button(RESTART_IMG, RESTART_BUTTON_DIM, RESTART_BUTTON_LOCATION, self.restart_game)
@@ -58,20 +60,24 @@ class Typer:
         self.reset = True
         self.y_level_text = 225
         pygame.init()
-        pygame.display.set_caption("Typing Game")
+        pygame.display.set_caption("LyricTyper")
         self.bg_img = pygame.image.load(BG_IMG)
         self.bg_img = pygame.transform.scale(self.bg_img, (750, 550))
 
     def draw_text(self, text, pos, font_size, text_color):
         """
-        if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered at that y-coordinate.
+        if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered
+        at that y-coordinate.
         """
-        text_surface = pygame.font.Font(FONT_FILE, font_size).render(text, True, text_color)
+        font = pygame.font.Font(FONT_FILE, font_size)
+        text_surface = font.render(text, True, text_color)
         if isinstance(pos, tuple):
             self.screen.blit(text_surface, pos)
-            return
+            pygame.display.update()
+            return pos
         self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, pos)))
-        pygame.display.flip()
+        pygame.display.update()
+        return text_surface.get_rect(center=(WIDTH / 2, pos))
 
     def show_result(self):
         pass
@@ -93,19 +99,19 @@ class Typer:
 
     def draw_menu_screen(self):
         self.draw_bg()
-        self.draw_text("Typing Game", 80, 72, self.color_heading)
+        self.draw_text("LyricTyper", 80, 72, self.color_heading)
+        pygame.display.update()
 
     def draw_playing_screen(self):
         self.draw_bg()
         self.stop_button.draw(self.screen)
+        pygame.display.update()
 
     def play_song(self):
         self.state = "Playing"
-        self.song_playing = True
         self.draw_playing_screen()
-        self.start_time = time.time()
+        self.song_playing = True
         EXAMPLE_SONG.play()
-
 
     def stop_song(self):
         self.state = "Menu"
@@ -134,29 +140,44 @@ class Typer:
         self.running = True
         clock = pygame.time.Clock()
         while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    sys.exit()
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    pos = pygame.mouse.get_pos()
-                    for button in Button.active_buttons:
-                        if button.is_clicked(pos):
-                            button.click()
-                            break
+            if self.state == "Menu":
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
+                        sys.exit()
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        pos = pygame.mouse.get_pos()
+                        for button in Button.active_buttons:
+                            if button.is_clicked(pos):
+                                button.click()
+                                break
 
-            if self.state == "Playing":
-                textinput = pygame_textinput.TextInputVisualizer
+            elif self.state == "Playing":
+
+                clock1 = pygame.time.Clock()
+                textinput = pygame_textinput.TextInputVisualizer(font_object=pygame.font.Font(FONT_FILE, LYRIC_SIZE),
+                                                                 font_color=BLACK,
+                                                                 cursor_width=0)
                 index = 0
                 t1 = pygame.time.get_ticks()
-                self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE, LYRIC_COLOR)
+
                 while self.state == "Playing":
+
+                    events = pygame.event.get()
+                    textinput.update(events)
+                    self.draw_playing_screen()
+                    lyric_rect = self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE,
+                                                BLACK)
+                    # user input typing
+                    self.screen.blit(textinput.surface, lyric_rect)
+
                     if pygame.time.get_ticks() - t1 >= EXAMPLE_SONG.delays[index] * 1000:
+                        textinput.value = ""
+                        textinput.font_color = WHITE  # this does nothing, yet it fixes a bug
                         index += 1
                         t1 = pygame.time.get_ticks()
-                        self.draw_playing_screen()
-                        self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE, LYRIC_COLOR)
-                    for event in pygame.event.get():
+
+                    for event in events:
                         if event.type == pygame.QUIT:
                             self.running = False
                             sys.exit()
@@ -166,13 +187,11 @@ class Typer:
                                 if button.is_clicked(pos):
                                     button.click()
                                     break
-                    events = pygame.event.get()
                     pygame.display.update()
-                    clock.tick(60)
-
+                    clock1.tick(30)
 
             pygame.display.update()
-            clock.tick(60)
+            clock.tick(30)
 
 
 if __name__ == "__main__":

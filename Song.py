@@ -17,6 +17,7 @@ class Song:
         mixer.init()
         mixer.music.load(self.file)
         mixer.music.play()
+        mixer.music.set_volume(0.1)
 
     def stop(self):
         print("stopping song")

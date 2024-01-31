@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="progress">
-      <change afterPath="$PROJECT_DIR$/.idea/LyricTyper.iml" afterDir="false" />
+    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="kinda functional version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LyricTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/LyricTyper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Song.py" beforeDir="false" afterPath="$PROJECT_DIR$/Song.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/outlined_font.ttf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,27 +49,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.LyricTyper (1).executor": "Run",
-    "Python.LyricTyper.executor": "Run",
-    "Python.Song (1).executor": "Run",
-    "Python.Song.executor": "Run",
-    "Python.displayLyrics.executor": "Run",
-    "Python.ex.executor": "Run",
-    "Python.example_version.executor": "Run",
-    "Python.play_song.executor": "Run",
-    "Python.testing.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Ben/PycharmProjects/LyricTyper",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.LyricTyper (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.LyricTyper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Song (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.Song.executor&quot;: &quot;Run&quot;,
+    &quot;Python.displayLyrics.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ex.executor&quot;: &quot;Run&quot;,
+    &quot;Python.example_version.executor&quot;: &quot;Run&quot;,
+    &quot;Python.play_song.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testing.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ben/PycharmProjects/Cribbage&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.LyricTyper">
     <configuration name="LyricTyper (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LyricTyper" />
@@ -217,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705024832159</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="kinda functional version">
+      <option name="closed" value="true" />
+      <created>1705039050169</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705039050169</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -233,6 +239,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="progress" />
+    <MESSAGE value="kinda functional version" />
+    <option name="LAST_COMMIT_MESSAGE" value="kinda functional version" />
   </component>
 </project>

@@ -2,7 +2,7 @@ import pygame
 import pygame_gui
 from Song import Song
 
-test_song = Song("countingstars.txt")
+test_song = Song("counting_stars.txt")
 
 pygame.init()
 
@@ -47,4 +47,4 @@ while is_running:
             print(line)
             time.sleep(2)"""
 
-# show_lyrics('countingstars.txt')
+# show_lyrics('counting_stars.txt')

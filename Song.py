@@ -1,16 +1,18 @@
 from pygame import mixer
-
+import json
+from mutagen.mp3 import MP3
 
 class Song:
     """
     file: filename
-    delays: the duration of each lyric. First entry is the duration of no lyrics at the start of the song.
+    timestamps: the current lyric is displayed until we hit the timestamp.
     lyrics: the lyrics of the song. First entry is empty.
     """
-    def __init__(self, file, delays, lyrics):
+    def __init__(self, file: str, timestamps: list[float], lyrics: list[str]):
         self.file = file
-        self.delays = delays
+        self.timestamps = timestamps
         self.lyrics = lyrics
+        self.duration = MP3(file).info.length
 
     def play(self):
         print("playing song")
@@ -24,7 +26,7 @@ class Song:
         mixer.music.stop()
 
 
-delays = [1.1,
+original_delays = [1.1,
           1.78,
           2.98,
           2.96,
@@ -67,7 +69,7 @@ delays = [1.1,
           5,
           ]
 
-lyrics = ["",
+original_lyrics = ["",
           "you have my heart",
           "we'll never be worlds apart",
           "maybe in magazines",
@@ -112,4 +114,8 @@ lyrics = ["",
           ""
           ]
 
-EXAMPLE_SONG = Song("resources/umbrella_remix.mp3", delays, lyrics)
+with open('songs/TEST.json', 'r') as file:
+    timestamps, lyrics = json.load(file)
+
+EXAMPLE_SONG = Song("songs/test_music.mp3", timestamps, lyrics)
+#EXAMPLE_SONG = Song("songs/umbrella_music.mp3", original_delays, original_lyrics)

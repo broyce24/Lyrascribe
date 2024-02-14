@@ -14,7 +14,6 @@ from Button import Button
 from Song import EXAMPLE_SONG
 
 BG_IMG = "resources/background2.jpg"
-LYRICS_TXT = "resources/countingstars.txt"
 RESTART_IMG = "resources/restart.png"
 PLAY_IMG = "resources/play_button.png"
 STOP_IMG = "resources/stop.png"
@@ -118,14 +117,6 @@ class Typer:
         EXAMPLE_SONG.stop()
         self.restart_game()
 
-    def display_lyrics(self):
-        for lyric_duration, lyric in zip(EXAMPLE_SONG.delays, EXAMPLE_SONG.lyrics):
-            text = pygame.font.Font("Roboto-Regular.ttf", 24).render(lyric, True, (84, 84, 84))
-            self.screen.blit(text, self.input_rect)
-            pygame.display.update()
-            time.sleep(lyric_duration)
-            exit()
-
     def restart_game(self):
         self.start_time = 0
         self.total_time = 0
@@ -136,21 +127,23 @@ class Typer:
         self.state = "Menu"
 
     def run(self):
-        self.restart_game()
+
         self.running = True
         clock = pygame.time.Clock()
         while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    for button in Button.active_buttons:
+                        if button.is_clicked(pos):
+                            button.click()
+                            break
+
             if self.state == "Menu":
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        self.running = False
-                        sys.exit()
-                    elif event.type == pygame.MOUSEBUTTONUP:
-                        pos = pygame.mouse.get_pos()
-                        for button in Button.active_buttons:
-                            if button.is_clicked(pos):
-                                button.click()
-                                break
+                self.restart_game()
 
             elif self.state == "Playing":
 
@@ -159,23 +152,26 @@ class Typer:
                                                                  font_color=BLACK,
                                                                  cursor_width=0)
                 index = 0
-                t1 = pygame.time.get_ticks()
+                start = time.time()
+                current_lyric = ''
 
                 while self.state == "Playing":
-
+                    if not pygame.mixer.music.get_busy():
+                        self.state = "Results"
                     events = pygame.event.get()
                     textinput.update(events)
                     self.draw_playing_screen()
-                    lyric_rect = self.draw_text(EXAMPLE_SONG.lyrics[index], LYRIC_LOCATION[1], LYRIC_SIZE,
+                    lyric_rect = self.draw_text(current_lyric, LYRIC_LOCATION[1], LYRIC_SIZE,
                                                 BLACK)
                     # user input typing
                     self.screen.blit(textinput.surface, lyric_rect)
 
-                    if pygame.time.get_ticks() - t1 >= EXAMPLE_SONG.delays[index] * 1000:
+                    if time.time() - start >= EXAMPLE_SONG.timestamps[index]:
                         textinput.value = ""
                         textinput.font_color = WHITE  # this does nothing, yet it fixes a bug
+                        current_lyric = EXAMPLE_SONG.lyrics[index]
                         index += 1
-                        t1 = pygame.time.get_ticks()
+                        print("new index:", index)
 
                     for event in events:
                         if event.type == pygame.QUIT:
@@ -189,6 +185,11 @@ class Typer:
                                     break
                     pygame.display.update()
                     clock1.tick(30)
+
+            elif self.state == "Results":
+                self.draw_bg()
+                self.draw_text("You made it all the way through!", 100, 40, WHITE)
+                # draw stats
 
             pygame.display.update()
             clock.tick(30)

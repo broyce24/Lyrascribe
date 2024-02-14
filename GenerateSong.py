@@ -10,7 +10,6 @@ Outputs a file with the song's lyrics and delays.
 SONG_FILE = 'songs/test_music.mp3'
 LYRICS_FILE = 'songs/short_lyrics.txt'
 SONG_NAME = 'TEST'
-REACTION_TIME = 0.2
 
 def record():
     mixer.init()
@@ -28,7 +27,7 @@ def record():
     # start generating timestamps
     while True:
         input(f"{line_num}: {lyrics[line_num]}")
-        delays.append(time.time() - start - REACTION_TIME)
+        delays.append(time.time() - start)
         line_num += 1
         if line_num == len(lyrics) - 1:
             print(f"{line_num}: {lyrics[line_num]}")

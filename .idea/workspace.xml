@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="kinda functional version">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GenerateSong.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/songs/UMBRELLA.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="added a way to create song timestamps">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GenerateSong.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateSong.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LyricTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/LyricTyper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Song.py" beforeDir="false" afterPath="$PROJECT_DIR$/Song.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/displayLyrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/displayLyrics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/countingstars.txt" beforeDir="false" afterPath="$PROJECT_DIR$/songs/counting_stars.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/umbrella_remix.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/songs/umbrella_music.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/songs/TEST.json" beforeDir="false" afterPath="$PROJECT_DIR$/songs/TEST.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +222,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706666813407</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added a way to create song timestamps">
+      <option name="closed" value="true" />
+      <created>1707870471527</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1707870471527</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,16 +247,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="progress" />
     <MESSAGE value="kinda functional version" />
-    <option name="LAST_COMMIT_MESSAGE" value="kinda functional version" />
+    <MESSAGE value="added a way to create song timestamps" />
+    <option name="LAST_COMMIT_MESSAGE" value="added a way to create song timestamps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/LyricTyper.py</url>
-          <line>6</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py</url>
           <line>4</line>

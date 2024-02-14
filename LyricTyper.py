@@ -21,6 +21,7 @@ FONT_FILE = "resources/filled_font.ttf"
 
 WIDTH = 750
 HEIGHT = 550
+NAME = "LyricTyper"
 
 # Button info
 PLAY_SIZE = (50, 50)
@@ -43,7 +44,7 @@ class Typer:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.y_level_text = 225
         pygame.init()
-        pygame.display.set_caption("LyricTyper")
+        pygame.display.set_caption(NAME)
         self.bg_img = pygame.transform.scale(pygame.image.load(BG_IMG), (750, 550))
 
         # Internal states
@@ -69,7 +70,7 @@ class Typer:
         self.start_time = None
         self.current_lyric = None
         self.textinput = pygame_textinput.TextInputVisualizer(font_object=pygame.font.Font(FONT_FILE, LYRIC_SIZE),
-                                                              font_color=BLACK,
+                                                              font_color=WHITE,
                                                               cursor_width=0)
 
     def draw_text(self, text, pos, font_size, text_color):
@@ -107,7 +108,7 @@ class Typer:
 
     def draw_menu_screen(self):
         self.draw_bg()
-        self.draw_text("LyricTyper", 80, 72, WHITE)
+        self.draw_text(NAME, 80, 72, WHITE)
         self.play_button.draw(self.screen)
 
     def draw_playing_screen(self):
@@ -170,7 +171,7 @@ class Typer:
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.song_index] - self.reaction_time:
                     self.textinput.value = ""
-                    self.textinput.font_color = WHITE  # this does nothing, yet it fixes a bug
+                    self.textinput.font_color = WHITE  # this fixes a bug
                     self.current_lyric = EXAMPLE_SONG.lyrics[self.song_index]
                     self.song_index += 1
                     print("new index:", self.song_index)

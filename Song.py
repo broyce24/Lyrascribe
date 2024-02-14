@@ -114,8 +114,8 @@ original_lyrics = ["",
           ""
           ]
 
-with open('songs/TEST.json', 'r') as file:
+with open('songs/umbrella_full.json', 'r') as file:
     timestamps, lyrics = json.load(file)
 
-EXAMPLE_SONG = Song("songs/test_music.mp3", timestamps, lyrics)
+EXAMPLE_SONG = Song("songs/umbrella_music.mp3", timestamps, lyrics)
 #EXAMPLE_SONG = Song("songs/umbrella_music.mp3", original_delays, original_lyrics)

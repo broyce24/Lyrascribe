@@ -8,9 +8,9 @@ Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
-SONG_FILE = 'songs/test_music.mp3'
-LYRICS_FILE = 'songs/short_lyrics.txt'
-SONG_NAME = 'TEST'
+SONG_FILE = 'songs/umbrella_music.mp3'
+LYRICS_FILE = 'songs/umbrella_lyrics_full.txt'
+SONG_NAME = '4435243'
 
 def record():
     mixer.init()

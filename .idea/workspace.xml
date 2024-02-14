@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="added a way to create song timestamps">
+    <list default="true" id="f7b4e34f-a3db-4d3e-8568-486309fb79eb" name="Changes" comment="Managed to condense the running loop to one fps clock.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GenerateSong.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateSong.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LyricTyper.py" beforeDir="false" afterPath="$PROJECT_DIR$/LyricTyper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/songs/TEST.json" beforeDir="false" afterPath="$PROJECT_DIR$/songs/TEST.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707870471527</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Managed to condense the running loop to one fps clock.">
+      <option name="closed" value="true" />
+      <created>1707874068026</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1707874068026</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -248,7 +254,8 @@
     <MESSAGE value="progress" />
     <MESSAGE value="kinda functional version" />
     <MESSAGE value="added a way to create song timestamps" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a way to create song timestamps" />
+    <MESSAGE value="Managed to condense the running loop to one fps clock." />
+    <option name="LAST_COMMIT_MESSAGE" value="Managed to condense the running loop to one fps clock." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

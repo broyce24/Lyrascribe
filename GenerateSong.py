@@ -6,6 +6,7 @@ import json
 '''
 Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
+Press enter when each lyric starts.
 '''
 SONG_FILE = 'songs/test_music.mp3'
 LYRICS_FILE = 'songs/short_lyrics.txt'

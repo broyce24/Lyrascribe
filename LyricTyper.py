@@ -140,9 +140,26 @@ class Typer:
         self.current_lyric = ""
         self.textinput.value = ""
 
+    def ctrl_backspace(self):
+        space_index = self.textinput.value.rfind(' ')
+        if space_index == -1:
+            self.textinput.value = ""
+        else:
+            print("Old text:", self.textinput.value)
+            print("Space at:", space_index)
+            self.textinput.value = self.textinput.value[:space_index + 2]
+            # Need to include +1 because the textinput reader will also detect the backspace and delete extra char
+            print("New text:", self.textinput.value)
+
+    def ctrl_a(self):
+        self.textinput.value = ""
+
     def run(self):
         self.running = True
         clock = pygame.time.Clock()
+        # For lyric typing
+
+        ctrl_a = False
         while self.running:
             events = pygame.event.get()
             for event in events:
@@ -155,6 +172,13 @@ class Typer:
                         if button.is_clicked(pos):
                             button.click()
                             break
+                elif event.type == pygame.KEYDOWN:
+                    if pygame.key.get_mods() & pygame.KMOD_CTRL:
+                        if event.key == pygame.K_BACKSPACE:
+                            self.ctrl_backspace()
+                        elif event.key == pygame.K_a:
+                            self.ctrl_a()
+                            ctrl_a = True
 
             if self.state == "Menu":
                 self.draw_menu_screen()
@@ -165,16 +189,19 @@ class Typer:
                                             BLACK)
                 # draw the user inputted text
                 # noinspection PyTypeChecker
+                print("blitting:", self.textinput.value)
                 self.textinput.update(events)
+                if ctrl_a:
+                    self.textinput.value = self.textinput.value[:-1]
+                    ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
-
+                print("blitting:", self.textinput.value)
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.song_index] - self.reaction_time:
                     self.textinput.value = ""
                     self.textinput.font_color = WHITE  # this fixes a bug
                     self.current_lyric = EXAMPLE_SONG.lyrics[self.song_index]
                     self.song_index += 1
-                    print("new index:", self.song_index)
                 elif not pygame.mixer.music.get_busy():
                     self.state = "Results"
 

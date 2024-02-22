@@ -9,6 +9,7 @@ import time
 
 import pygame
 import pygame_textinput
+import Levenshtein
 
 from Button import Button
 from Song import EXAMPLE_SONG
@@ -18,7 +19,7 @@ RESTART_IMG = "resources/restart.png"
 PLAY_IMG = "resources/play_button.png"
 STOP_IMG = "resources/stop.png"
 FONT_FILE = "resources/filled_font.ttf"
-
+NUMERIC_FONT_FILE = "resources/Roboto-Regular.ttf"
 WIDTH = 750
 HEIGHT = 550
 NAME = "LyricTyper"
@@ -73,19 +74,17 @@ class Typer:
                                                               font_color=WHITE,
                                                               cursor_width=0)
 
-    def draw_text(self, text, pos, font_size, text_color):
+    def draw_text(self, text, pos, font_size, text_color, font_file=FONT_FILE):
         """
         if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered
         at that y-coordinate.
         """
-        font = pygame.font.Font(FONT_FILE, font_size)
+        font = pygame.font.Font(font_file, font_size)
         text_surface = font.render(text, True, text_color)
         if isinstance(pos, tuple):
             self.screen.blit(text_surface, pos)
-            pygame.display.update()
             return pos
         self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, pos)))
-        pygame.display.update()
         return text_surface.get_rect(center=(WIDTH / 2, pos))
 
     def show_result(self):
@@ -145,14 +144,15 @@ class Typer:
         if space_index == -1:
             self.textinput.value = ""
         else:
-            print("Old text:", self.textinput.value)
-            print("Space at:", space_index)
             self.textinput.value = self.textinput.value[:space_index + 2]
-            # Need to include +1 because the textinput reader will also detect the backspace and delete extra char
-            print("New text:", self.textinput.value)
+            # Need to include +2 because the textinput reader will also detect the backspace and delete extra char
 
     def ctrl_a(self):
         self.textinput.value = ""
+
+    def lyric_accuracy(self):
+        acc = Levenshtein.ratio(self.textinput.value, self.current_lyric)
+        return round(acc * 100, 1)
 
     def run(self):
         self.running = True
@@ -189,13 +189,12 @@ class Typer:
                                             BLACK)
                 # draw the user inputted text
                 # noinspection PyTypeChecker
-                print("blitting:", self.textinput.value)
                 self.textinput.update(events)
                 if ctrl_a:
                     self.textinput.value = self.textinput.value[:-1]
                     ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
-                print("blitting:", self.textinput.value)
+                self.draw_text("Accuracy:" + str(self.lyric_accuracy()) + "%", 400, 40, WHITE, NUMERIC_FONT_FILE)
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.song_index] - self.reaction_time:
                     self.textinput.value = ""

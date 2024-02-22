@@ -8,11 +8,11 @@ class Song:
     timestamps: the current lyric is displayed until we hit the timestamp.
     lyrics: the lyrics of the song. First entry is empty.
     """
-    def __init__(self, file: str, timestamps: list[float], lyrics: list[str]):
-        self.file = file
+    def __init__(self, music_file: str, timestamps: list[float], lyrics: list[str]):
+        self.file = music_file
         self.timestamps = timestamps
         self.lyrics = lyrics
-        self.duration = MP3(file).info.length
+        self.duration = MP3(music_file).info.length
 
     def play(self):
         print("playing song")
@@ -26,96 +26,8 @@ class Song:
         mixer.music.stop()
 
 
-original_delays = [1.1,
-          1.78,
-          2.98,
-          2.96,
-          3.13,
-          3.24,
-          2.85,
-          2.98,
-          3.10,
-          1.64,
-          3.21,
-          3.23,
-          2.50,
-          2.84,
-          2.96,
-          3.07,
-          3.30,
-          3.3,  # start of chorus
-          0.67,
-          0.81,
-          0.81,
-          0.8,
-          0.8,
-          2.3,
-          0.73,
-          0.82,
-          0.72,
-          0.76,
-          0.77,
-          2.26,
-          0.71,
-          0.79,
-          0.86,
-          2.3,
-          0.75,
-          0.75,
-          0.75,
-          0.75,
-          0.75,
-          0.75,
-          5,
-          ]
 
-original_lyrics = ["",
-          "you have my heart",
-          "we'll never be worlds apart",
-          "maybe in magazines",
-          "but you'll still be my star",
-          "baby cause in the dark",
-          "you can't see shiny cars",
-          "and that's when you need me there",
-          "with you I'll always share",
-          "because",
-          "when the sun shine, we shine together",
-          "told you I'll be here forever",
-          "said I'll always be your friend",
-          "took an oath and I'm stick it out till the end",
-          "now that it's raining more than ever",
-          "know that we still have each other",
-          "you can stand under my umbrella",
-          "you can stand under my umbrella",
-          "ella",
-          "ella",
-          "eh",
-          "eh",
-          "eh",
-          "under my umbrella",
-          "ella",
-          "ella",
-          "eh",
-          "eh",
-          "eh",
-          "under my umbrella",
-          "ella",
-          "ella",
-          "eh",
-          "eh",
-          "eh",
-          "under my umbrella",
-          "ella",
-          "ella",
-          "ella",
-          "eh",
-          "eh",
-          "eh",
-          ""
-          ]
-
-with open('songs/umbrella_full.json', 'r') as file:
-    timestamps, lyrics = json.load(file)
-
-EXAMPLE_SONG = Song("songs/umbrella_music.mp3", timestamps, lyrics)
+serialized_file = 'songs/umbrella.json'
+with open(serialized_file, 'r') as file:
+    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['file'], dct['timestamps'], dct['lyrics']))
 #EXAMPLE_SONG = Song("songs/umbrella_music.mp3", original_delays, original_lyrics)

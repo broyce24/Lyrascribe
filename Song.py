@@ -1,5 +1,4 @@
 from pygame import mixer
-import json
 
 class Song:
     """
@@ -13,12 +12,10 @@ class Song:
         self.lyrics = lyrics
 
     def play(self):
-        print("playing song")
         mixer.init()
         mixer.music.load(self.file)
         mixer.music.play()
         mixer.music.set_volume(0.1)
 
     def stop(self):
-        print("stopping song")
         mixer.music.stop()

@@ -6,33 +6,42 @@ ONLY BLIT ONTO THE WHOLE WINDOW
 
 import sys
 import time
+import json
 
 import pygame
 import pygame_textinput
 import Levenshtein
 
 from Button import Button
-from Song import EXAMPLE_SONG
+from Song import Song
+
+song_to_use = 'songs/short_song.json'
+with open(song_to_use, 'r') as file:
+    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['file'], dct['timestamps'], dct['lyrics']))
 
 BG_IMG = "resources/background2.jpg"
-RESTART_IMG = "resources/restart.png"
+RESTART_IMG = "resources/restart_button.png"
 PLAY_IMG = "resources/play_button.png"
 STOP_IMG = "resources/stop.png"
+MAIN_MENU_IMG = "resources/main_menu.png"
 FONT_FILE = "resources/filled_font.ttf"
 NUMERIC_FONT_FILE = "resources/Roboto-Regular.ttf"
 WIDTH = 750
 HEIGHT = 550
+CENTERED = WIDTH // 2
 NAME = "LyricTyper"
 
 # Button info
 PLAY_SIZE = (50, 50)
-PLAY_LOCATION = (400, 180)
+PLAY_LOCATION = (CENTERED, 140)
 STOP_SIZE = (50, 50)
-STOP_LOCATION = (400, 180)
-RESTART_SIZE = (100, 100)
-RESTART_LOCATION = (400, 400)
+STOP_LOCATION = (CENTERED, 140)
+RESTART_SIZE = (75, 75)
+RESTART_LOCATION = (CENTERED, HEIGHT // 2)
 LYRIC_SIZE = 40
-LYRIC_LOCATION = (25, 250)
+LYRIC_LOCATION = (25, 240)
+MAIN_MENU_SIZE = (120, 40)
+MAIN_MENU_LOCATION = (CENTERED, 435)
 
 # Colors
 BLACK = (0, 0, 0)
@@ -54,22 +63,18 @@ class Typer:
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_song)
-        self.restart_button = Button(RESTART_IMG, RESTART_SIZE, RESTART_LOCATION, self.restart_game)
+        self.restart_button = Button(RESTART_IMG, RESTART_SIZE, RESTART_LOCATION, self.restart_song)
         self.stop_button = Button(STOP_IMG, STOP_SIZE, STOP_LOCATION, self.stop_song)
-
-        # Result info
-        self.total_time = 0
-        self.results = "Type:0 ~ Accuracy:0 % ~ Words Per Minute:0"
-        self.accuracy = "0%"
-        self.wpm = 0
-        self.word = ""
-        self.input_text = ""
+        self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
 
         # Playing songs
         self.reaction_time = 0.5
-        self.song_index = None
-        self.start_time = None
-        self.current_lyric = None
+        self.next_index = 0
+        self.start_time = 0
+        self.current_lyric = ""
+        self.total_accuracy = 0
+        self.nonblank_lyrics = 0
+        self.on_final_lyric = False
         self.textinput = pygame_textinput.TextInputVisualizer(font_object=pygame.font.Font(FONT_FILE, LYRIC_SIZE),
                                                               font_color=WHITE,
                                                               cursor_width=0)
@@ -78,37 +83,29 @@ class Typer:
         """
         if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered
         at that y-coordinate.
+        Returns the rect of the text that was drawn.
         """
         font = pygame.font.Font(font_file, font_size)
         text_surface = font.render(text, True, text_color)
         if isinstance(pos, tuple):
             self.screen.blit(text_surface, pos)
-            return pos
+            return pygame.Rect(pos)
         self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, pos)))
         return text_surface.get_rect(center=(WIDTH / 2, pos))
-
-    def show_result(self):
-        pass
-        self.total_time = time.time() - self.start_time
-        count = 0
-        for i, c in enumerate(self.word):
-            if self.input_text[i] == c:
-                count += 1
-        self.accuracy = (count * 100) / len(self.word)
-        self.wpm = (len(self.input_text) * 60) / (5 * self.total_time)
-        self.results = "Time: " + str(round(self.total_time)) + " secs ~ Accuracy: " + str(
-            round(self.accuracy)) + "% ~ WPM: " + str(round(self.wpm))
-        self.restart_button.draw(self.screen)
-        pygame.display.flip()
 
     def draw_bg(self):
         self.screen.blit(self.bg_img, (0, 0))
         Button.clear_active_buttons()
 
+    def return_to_menu(self):
+        # not finished
+        self.state = "Menu"
+
     def draw_menu_screen(self):
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
         self.play_button.draw(self.screen)
+
 
     def draw_playing_screen(self):
         self.draw_bg()
@@ -116,28 +113,41 @@ class Typer:
 
     def draw_results_screen(self):
         self.draw_bg()
-        self.draw_text("You made it all the way through!", 100, 40, WHITE)
+        self.draw_text("You made it all the way through!", 105, 40, WHITE)
+        final_acc = round(self.total_accuracy / self.nonblank_lyrics * 100, 1)
+        self.draw_text("Accuracy:" + str(final_acc) + "%",
+                       380, 40, WHITE, NUMERIC_FONT_FILE)
         self.restart_button.draw(self.screen)
+        self.main_menu_button.draw(self.screen)
+
+    def draw_failure_screen(self):
+        self.draw_bg()
+        self.draw_text("Ouch! You didn't quite get that one...", 190, 38, WHITE)
+        self.draw_text("Try again?", HEIGHT // 2 + 70, 40, WHITE)
+        self.restart_button.draw(self.screen)
+        self.main_menu_button.draw(self.screen)
 
     def play_song(self):
+        self.reset_song_values()
         self.state = "Playing"
         EXAMPLE_SONG.play()
-        self.reset_song_values()
+        self.start_time = time.time()
 
     def stop_song(self):
         self.state = "Menu"
         EXAMPLE_SONG.stop()
-        self.restart_game()
 
-    def restart_game(self):
-        self.state = "Menu"
-        self.draw_menu_screen()
+    def restart_song(self):
+        self.play_song()
 
     def reset_song_values(self):
-        self.song_index = 0
-        self.start_time = time.time()
-        self.current_lyric = ""
         self.textinput.value = ""
+        self.next_index = 0
+        self.start_time = 0
+        self.current_lyric = ""
+        self.total_accuracy = 0
+        self.nonblank_lyrics = 0
+        self.on_final_lyric = False
 
     def ctrl_backspace(self):
         space_index = self.textinput.value.rfind(' ')
@@ -149,10 +159,6 @@ class Typer:
 
     def ctrl_a(self):
         self.textinput.value = ""
-
-    def lyric_accuracy(self):
-        acc = Levenshtein.ratio(self.textinput.value, self.current_lyric)
-        return round(acc * 100, 1)
 
     def run(self):
         self.running = True
@@ -185,24 +191,45 @@ class Typer:
 
             elif self.state == "Playing":
                 self.draw_playing_screen()
-                lyric_rect = self.draw_text(self.current_lyric, LYRIC_LOCATION[1], LYRIC_SIZE,
-                                            BLACK)
+                lyric_rect = self.draw_text(self.current_lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)
                 # draw the user inputted text
                 # noinspection PyTypeChecker
                 self.textinput.update(events)
                 if ctrl_a:
-                    self.textinput.value = self.textinput.value[:-1]
+                    self.textinput.value = ""
                     ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
-                self.draw_text("Accuracy:" + str(self.lyric_accuracy()) + "%", 400, 40, WHITE, NUMERIC_FONT_FILE)
+                if not self.on_final_lyric:
+                    lyric_wpm = round(len(self.current_lyric) / 5 * 60 / (
+                                EXAMPLE_SONG.timestamps[self.next_index] - EXAMPLE_SONG.timestamps[
+                            self.next_index - 1]))
+                    self.draw_text("Current lyric: " + str(lyric_wpm) + " WPM", 380, 40, WHITE, NUMERIC_FONT_FILE)
+
                 # move onto next lyric, clearing input text
-                if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.song_index] - self.reaction_time:
+                if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.next_index] - self.reaction_time:
+                    # collect accuracy
+                    if self.current_lyric:
+                        current_acc = Levenshtein.ratio(self.textinput.value.lower(), self.current_lyric)
+                        if current_acc < 0.7:
+                            self.state = "Failure"
+                        self.total_accuracy += current_acc
+                        self.nonblank_lyrics += 1
+                    print(self.current_lyric, self.total_accuracy, self.nonblank_lyrics)
                     self.textinput.value = ""
                     self.textinput.font_color = WHITE  # this fixes a bug
-                    self.current_lyric = EXAMPLE_SONG.lyrics[self.song_index]
-                    self.song_index += 1
+                    self.current_lyric = EXAMPLE_SONG.lyrics[self.next_index]
+                    self.next_index += 1
+                    if EXAMPLE_SONG.timestamps[self.next_index] == sys.maxsize:
+                        self.on_final_lyric = True
                 elif not pygame.mixer.music.get_busy():
+                    # final lyric's accuracy
+                    self.total_accuracy += Levenshtein.ratio(self.textinput.value.lower(), self.current_lyric)
+                    self.nonblank_lyrics += 1
+                    print(self.current_lyric, self.total_accuracy, self.nonblank_lyrics)
                     self.state = "Results"
+
+            elif self.state == "Failure":
+                self.draw_failure_screen()
 
             elif self.state == "Results":
                 self.draw_results_screen()

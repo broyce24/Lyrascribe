@@ -32,4 +32,4 @@ class Button:
         self.call()
 
     def from_center_coords(self, center_pos):
-        return center_pos[0] - self.size[0], center_pos[1] - self.size[1]
+        return center_pos[0] - self.size[0] / 2, center_pos[1] - self.size[1] / 2

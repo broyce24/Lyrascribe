@@ -1,6 +1,5 @@
 from pygame import mixer
 import json
-from mutagen.mp3 import MP3
 
 class Song:
     """
@@ -12,7 +11,6 @@ class Song:
         self.file = music_file
         self.timestamps = timestamps
         self.lyrics = lyrics
-        self.duration = MP3(music_file).info.length
 
     def play(self):
         print("playing song")
@@ -24,10 +22,3 @@ class Song:
     def stop(self):
         print("stopping song")
         mixer.music.stop()
-
-
-
-serialized_file = 'songs/umbrella.json'
-with open(serialized_file, 'r') as file:
-    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['file'], dct['timestamps'], dct['lyrics']))
-#EXAMPLE_SONG = Song("songs/umbrella_music.mp3", original_delays, original_lyrics)

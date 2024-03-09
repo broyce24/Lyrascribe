@@ -4,6 +4,9 @@ ALL BUTTONS MUST BE CIRCLES, AND LOCATED BY THEIR CENTER
 ONLY BLIT ONTO THE WHOLE WINDOW
 """
 
+# When song is clicked, draw play button
+# self.play_button.draw(self.screen)
+
 import sys
 import time
 import json
@@ -81,19 +84,15 @@ class Typer:
                                                               font_color=WHITE,
                                                               cursor_width=0)
 
-    def draw_text(self, text, pos, font_size, text_color, font_file=FONT_FILE):
+    def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE):
         """
-        if "pos" is tuple, then that position is the top left corner of the text. If a single int, then text is centered
-        at that y-coordinate.
+        Draws text centered at y_value.
         Returns the rect of the text that was drawn.
         """
         font = pygame.font.Font(font_file, font_size)
         text_surface = font.render(text, True, text_color)
-        if isinstance(pos, tuple):
-            self.screen.blit(text_surface, pos)
-            return pygame.Rect(pos)
-        self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, pos)))
-        return text_surface.get_rect(center=(WIDTH / 2, pos))
+        self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, y_value)))
+        return text_surface.get_rect(center=(WIDTH / 2, y_value))
 
     def draw_bg(self):
         self.screen.blit(self.bg_img, (0, 0))
@@ -104,9 +103,24 @@ class Typer:
         self.state = "Menu"
 
     def draw_menu_screen(self):
+        # debug song names
+
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
-        self.play_button.draw(self.screen)
+        song_names = ("Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story", "Let Her Go", "The Nights")
+        colors = (
+            (0, 255, 0),
+            (131, 209, 0),
+            (153, 165, 0),
+            (152, 125, 0),
+            (140, 87, 0),
+            (121, 50, 0),
+            (91, 20, 5),
+            (56, 0, 0)
+
+        )
+        for i, song_name in enumerate(song_names):
+            self.draw_text(song_name, 40 * i + 140, 40, colors[i])
 
     def draw_playing_screen(self):
         self.draw_bg()

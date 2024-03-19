@@ -20,7 +20,7 @@ from Song import Song
 
 song_to_use = 'songs/umbrella.json'
 with open(song_to_use, 'r') as file:
-    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['file'], dct['timestamps'], dct['lyrics']))
+    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['file'], dct['timestamps'], dct['lyrics'], dct['wpm_list']))
 
 BG_IMG = "resources/background2.jpg"
 RESTART_IMG = "resources/restart_button.png"
@@ -102,12 +102,14 @@ class Typer:
         # not finished
         self.state = "Menu"
 
-    def draw_menu_screen(self):
+    def draw_song_select(self):
         # debug song names
-
+        # currently unused
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
-        song_names = ("Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story", "Let Her Go", "The Nights")
+        song_names = (
+        "Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story",
+        "Let Her Go", "The Nights")
         colors = (
             (0, 255, 0),
             (131, 209, 0),
@@ -121,6 +123,10 @@ class Typer:
         )
         for i, song_name in enumerate(song_names):
             self.draw_text(song_name, 40 * i + 140, 40, colors[i])
+    def draw_menu_screen(self):
+        self.draw_bg()
+        self.draw_text(NAME, 80, 72, WHITE)
+        self.play_button.draw(self.screen)
 
     def draw_playing_screen(self):
         self.draw_bg()
@@ -216,9 +222,7 @@ class Typer:
                     ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
                 if not self.on_final_lyric and self.current_lyric:
-                    lyric_wpm = round(len(self.current_lyric) / 5 * 60 / (
-                            EXAMPLE_SONG.timestamps[self.next_index] - EXAMPLE_SONG.timestamps[self.next_index - 1]))
-                    self.draw_text("Current lyric: " + str(lyric_wpm) + " WPM", 380, 40, WHITE, NUMERIC_FONT_FILE)
+                    self.draw_text("Current lyric: " + str(EXAMPLE_SONG.wpm_list[self.next_index - 1]) + " WPM", 380, 40, WHITE, NUMERIC_FONT_FILE)
 
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.next_index] - self.reaction_time:

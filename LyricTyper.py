@@ -2,6 +2,9 @@
 NEVER OVERLAP BUTTONS!
 ALL BUTTONS MUST BE CIRCLES, AND LOCATED BY THEIR CENTER
 ONLY BLIT ONTO THE WHOLE WINDOW
+
+Multiply the font size of everything by 2.56 to match increased dimensions.
+Multiply y-values by 1.96
 """
 
 # When song is clicked, draw play button
@@ -20,7 +23,9 @@ from Song import Song
 
 song_to_use = 'songs/umbrella.json'
 with open(song_to_use, 'r') as file:
-    EXAMPLE_SONG = json.load(file, object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['file'], dct['timestamps'], dct['lyrics'], dct['wpm_list']))
+    EXAMPLE_SONG = json.load(file,
+                             object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['file'], dct['timestamps'],
+                                                          dct['lyrics'], dct['wpm_list']))
 
 BG_IMG = "resources/background2.jpg"
 RESTART_IMG = "resources/restart_button.png"
@@ -29,8 +34,9 @@ STOP_IMG = "resources/stop.png"
 MAIN_MENU_IMG = "resources/main_menu.png"
 FONT_FILE = "resources/filled_font.ttf"
 NUMERIC_FONT_FILE = "resources/Roboto-Regular.ttf"
-WIDTH = 750
-HEIGHT = 550
+SCREEN_DIM = (1920, 1080)
+# original dimensions were 750 wide, 550 tall
+WIDTH, HEIGHT = SCREEN_DIM
 CENTERED = WIDTH // 2
 NAME = "LyricTyper"
 
@@ -54,11 +60,10 @@ WHITE = (255, 255, 255)
 class Typer:
     def __init__(self):
         # Creating display
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.y_level_text = 225
+        self.screen = pygame.display.set_mode(SCREEN_DIM)
         pygame.init()
         pygame.display.set_caption(NAME)
-        self.bg_img = pygame.transform.scale(pygame.image.load(BG_IMG), (750, 550))
+        self.bg_img = pygame.transform.scale(pygame.image.load(BG_IMG), SCREEN_DIM)
 
         # Internal states
         self.state = "Menu"
@@ -71,7 +76,7 @@ class Typer:
         self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
 
         # Playing songs
-        self.failure_rate = -1  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
+        self.failure_rate = 0.8  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
         self.reaction_time = 0.5
 
         self.next_index = 0
@@ -108,8 +113,8 @@ class Typer:
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
         song_names = (
-        "Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story",
-        "Let Her Go", "The Nights")
+            "Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story",
+            "Let Her Go", "The Nights")
         colors = (
             (0, 255, 0),
             (131, 209, 0),
@@ -123,6 +128,7 @@ class Typer:
         )
         for i, song_name in enumerate(song_names):
             self.draw_text(song_name, 40 * i + 140, 40, colors[i])
+
     def draw_menu_screen(self):
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
@@ -144,7 +150,7 @@ class Typer:
     def draw_failure_screen(self):
         EXAMPLE_SONG.stop()
         self.draw_bg()
-        self.draw_text("Oops! You didn't quite get that one...", 190, 38, WHITE)
+        self.draw_text("Oops! You didn't quite get that one...", 373, 97, WHITE)
         self.draw_text("Try again?", HEIGHT // 2 + 70, 40, WHITE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
@@ -222,7 +228,8 @@ class Typer:
                     ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
                 if not self.on_final_lyric and self.current_lyric:
-                    self.draw_text("Current lyric: " + str(EXAMPLE_SONG.wpm_list[self.next_index - 1]) + " WPM", 380, 40, WHITE, NUMERIC_FONT_FILE)
+                    self.draw_text("Current lyric: " + str(EXAMPLE_SONG.wpm_list[self.next_index - 1]) + " WPM", 380,
+                                   40, WHITE, NUMERIC_FONT_FILE)
 
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.next_index] - self.reaction_time:

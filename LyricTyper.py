@@ -3,8 +3,7 @@ NEVER OVERLAP BUTTONS!
 ALL BUTTONS MUST BE CIRCLES, AND LOCATED BY THEIR CENTER
 ONLY BLIT ONTO THE WHOLE WINDOW
 
-Multiply the font size of everything by 2.56 to match increased dimensions.
-Multiply y-values by 1.96
+Text will be a few pixels off when lyric contains an ', then once typed it fits itself correctly
 """
 
 # When song is clicked, draw play button
@@ -35,22 +34,22 @@ MAIN_MENU_IMG = "resources/main_menu.png"
 FONT_FILE = "resources/filled_font.ttf"
 NUMERIC_FONT_FILE = "resources/Roboto-Regular.ttf"
 SCREEN_DIM = (1920, 1080)
-# original dimensions were 750 wide, 550 tall
+# Use (1000, 600) for debugging
 WIDTH, HEIGHT = SCREEN_DIM
-CENTERED = WIDTH // 2
+CENTER_WIDTH, CENTER_HEIGHT = WIDTH // 2, HEIGHT // 2
 NAME = "LyricTyper"
 
 # Button info
-PLAY_SIZE = (50, 50)
-PLAY_LOCATION = (CENTERED, 140)
-STOP_SIZE = (50, 50)
-STOP_LOCATION = (CENTERED, 140)
-RESTART_SIZE = (75, 75)
-RESTART_LOCATION = (CENTERED, HEIGHT // 2)
-LYRIC_SIZE = 40
-LYRIC_LOCATION = (25, 240)
-MAIN_MENU_SIZE = (120, 40)
-MAIN_MENU_LOCATION = (CENTERED, 435)
+PLAY_SIZE = (100, 100)
+PLAY_LOCATION = (CENTER_WIDTH, 280)
+STOP_SIZE = (100, 100)
+STOP_LOCATION = (CENTER_WIDTH, 280)
+RESTART_SIZE = (150, 150)
+RESTART_LOCATION = (CENTER_WIDTH, CENTER_HEIGHT)
+LYRIC_SIZE = 100
+LYRIC_LOCATION = (25, 480)
+MAIN_MENU_SIZE = (300, 80)
+MAIN_MENU_LOCATION = (CENTER_WIDTH, 870)
 
 # Colors
 BLACK = (0, 0, 0)
@@ -76,7 +75,7 @@ class Typer:
         self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
 
         # Playing songs
-        self.failure_rate = 0.8  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
+        self.failure_rate = -1  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
         self.reaction_time = 0.5
 
         self.next_index = 0
@@ -89,15 +88,7 @@ class Typer:
                                                               font_color=WHITE,
                                                               cursor_width=0)
 
-    def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE):
-        """
-        Draws text centered at y_value.
-        Returns the rect of the text that was drawn.
-        """
-        font = pygame.font.Font(font_file, font_size)
-        text_surface = font.render(text, True, text_color)
-        self.screen.blit(text_surface, text_surface.get_rect(center=(WIDTH / 2, y_value)))
-        return text_surface.get_rect(center=(WIDTH / 2, y_value))
+
 
     def draw_bg(self):
         self.screen.blit(self.bg_img, (0, 0))
@@ -127,11 +118,11 @@ class Typer:
 
         )
         for i, song_name in enumerate(song_names):
-            self.draw_text(song_name, 40 * i + 140, 40, colors[i])
+            self.draw_text(song_name, 40 * i + 140, 100, colors[i])
 
     def draw_menu_screen(self):
         self.draw_bg()
-        self.draw_text(NAME, 80, 72, WHITE)
+        self.draw_text(NAME, 160, 180, WHITE)
         self.play_button.draw(self.screen)
 
     def draw_playing_screen(self):
@@ -140,18 +131,18 @@ class Typer:
 
     def draw_results_screen(self):
         self.draw_bg()
-        self.draw_text("You made it all the way through!", 105, 40, WHITE)
+        self.draw_text("You made it all the way through!", 110, 100, WHITE)
         final_acc = round(self.total_accuracy / self.nonblank_lyrics * 100, 1)
         self.draw_text("Accuracy:" + str(final_acc) + "%",
-                       380, 40, WHITE, NUMERIC_FONT_FILE)
+                       760, 100, WHITE, NUMERIC_FONT_FILE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
 
     def draw_failure_screen(self):
         EXAMPLE_SONG.stop()
         self.draw_bg()
-        self.draw_text("Oops! You didn't quite get that one...", 373, 97, WHITE)
-        self.draw_text("Try again?", HEIGHT // 2 + 70, 40, WHITE)
+        self.draw_text("Oops! You didn't quite get that one...", 380, 100, WHITE)
+        self.draw_text("Try again?", HEIGHT // 2 + 140, 100, WHITE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
 
@@ -187,6 +178,16 @@ class Typer:
 
     def ctrl_a(self):
         self.textinput.value = ""
+
+    def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE):
+        """
+        Draws text centered at y_value.
+        Returns the rect of the text that was drawn.
+        """
+        font = pygame.font.Font(font_file, font_size)
+        text_surface = font.render(text, True, text_color)
+        self.screen.blit(text_surface, text_surface.get_rect(center=(CENTER_WIDTH, y_value)))
+        return text_surface.get_rect(center=(CENTER_WIDTH, y_value))
 
     def run(self):
         self.running = True
@@ -227,9 +228,10 @@ class Typer:
                     self.textinput.value = ""
                     ctrl_a = False
                 self.screen.blit(self.textinput.surface, lyric_rect)
+                print(lyric_rect, self.textinput.surface.get_rect())
                 if not self.on_final_lyric and self.current_lyric:
-                    self.draw_text("Current lyric: " + str(EXAMPLE_SONG.wpm_list[self.next_index - 1]) + " WPM", 380,
-                                   40, WHITE, NUMERIC_FONT_FILE)
+                    self.draw_text("Current lyric: " + str(EXAMPLE_SONG.wpm_list[self.next_index - 1]) + " WPM", 760,
+                                   100, WHITE, NUMERIC_FONT_FILE)
 
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= EXAMPLE_SONG.timestamps[self.next_index] - self.reaction_time:
@@ -240,7 +242,6 @@ class Typer:
                             self.state = "Failure"
                         self.total_accuracy += current_acc
                         self.nonblank_lyrics += 1
-                    print(self.current_lyric, self.total_accuracy, self.nonblank_lyrics)
                     self.textinput.value = ""
                     self.textinput.font_color = WHITE  # this fixes a bug
                     self.current_lyric = EXAMPLE_SONG.lyrics[self.next_index]
@@ -255,7 +256,6 @@ class Typer:
                     else:
                         self.total_accuracy += current_acc
                         self.nonblank_lyrics += 1
-                        print(self.current_lyric, self.total_accuracy, self.nonblank_lyrics)
                         self.state = "Results"
 
             elif self.state == "Failure":

@@ -8,12 +8,12 @@ Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
-TITLE = "Umbrella"
-ARTIST = 'Rihanna'
-FILE = 'songs/umbrella.mp3'
-LYRICS = 'songs/umbrella.txt'
+TITLE = "Short Song"
+ARTIST = 'Anon'
+FILE = 'songs/short_music.mp3'
+LYRICS = 'songs/short_lyrics.txt'
 # debug
-avoid_overwrite = True
+avoid_overwrite = False
 SONG_NAME = FILE[FILE.find('/') + 1:FILE.find('.')] + str(time.time())[-6:-1] if avoid_overwrite else '1'  # avoids overwriting jason files
 
 def record():

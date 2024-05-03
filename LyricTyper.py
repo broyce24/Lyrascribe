@@ -3,8 +3,9 @@ NEVER OVERLAP BUTTONS!
 ALL BUTTONS MUST BE CIRCLES, AND LOCATED BY THEIR CENTER
 ONLY BLIT ONTO THE WHOLE WINDOW
 
-Text will be a few pixels off when lyric contains an ', then once typed it fits itself correctly. This is due to the background lyric rect being taller than the typing lyric rect until an apostrophe is typed, at which point they become the same size and fit perfectly. The
-"""
+Text will be a few pixels off when lyric contains an ', then once typed it fits itself correctly. This is due to the
+background lyric rect being taller than the typing lyric rect until an apostrophe is typed, at which point they
+become the same size and fit perfectly."""
 
 # When song is clicked, draw play button
 # self.play_button.draw(self.screen)
@@ -20,7 +21,6 @@ import Levenshtein
 
 from Button import Button
 from Song import Song
-
 
 BG_IMG = "resources/background2.jpg"
 RESTART_IMG = "resources/restart_button.png"
@@ -69,9 +69,10 @@ class Typer:
         for song_name in os.listdir('songs/json_files'):
             with open(os.path.join('songs/json_files', song_name), 'r') as file:
                 self.songs.append(
-                    json.load(file, object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['file'],
-                                                                 dct['timestamps'], dct['lyrics'], dct['wpm_list'])))
-        self.current_song = self.songs[-1] # use this for debugging
+                    json.load(file,
+                              object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
+                                                           dct['timestamps'], dct['lyrics'], dct['wpm_list'])))
+        self.current_song = self.songs[-1]  # use this for debugging
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_song)
@@ -105,7 +106,7 @@ class Typer:
         # currently unused
         self.draw_bg()
         self.draw_text(NAME, 80, 72, WHITE)
-        song_names = (
+        song_ideas = (
             "Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story",
             "Let Her Go", "The Nights")
         colors = (
@@ -233,8 +234,8 @@ class Typer:
                 self.screen.blit(self.textinput.surface, lyric_rect)
                 print(lyric_rect, self.textinput.surface.get_rect())
                 if not self.on_final_lyric and self.current_lyric:
-                    self.draw_text("Current lyric: " + str(self.current_song.wpm_list[self.next_index - 1]) + " WPM", 760,
-                                   100, WHITE, NUMERIC_FONT_FILE)
+                    self.draw_text("Current lyric: " + str(self.current_song.wpm_list[self.next_index - 1]) + " WPM",
+                                   760, 100, WHITE, NUMERIC_FONT_FILE)
 
                 # move onto next lyric, clearing input text
                 if time.time() - self.start_time >= self.current_song.timestamps[self.next_index] - self.reaction_time:

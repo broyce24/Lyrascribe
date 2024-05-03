@@ -3,24 +3,28 @@ import sys
 from pygame import mixer
 import time
 import json
+from mutagen.mp3 import MP3
+
 '''
 Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
-TITLE = "Short Song"
+TITLE = 'Short Song'
 ARTIST = 'Anon'
 FILE = 'songs/short_music.mp3'
 LYRICS = 'songs/short_lyrics.txt'
+DURATION = round(MP3(FILE).info.length)
 # debug
 avoid_overwrite = False
-SONG_NAME = FILE[FILE.find('/') + 1:FILE.find('.')] + str(time.time())[-6:-1] if avoid_overwrite else '1'  # avoids overwriting jason files
+JSON_FILENAME = FILE[FILE.find('/') + 1:FILE.find('.')] + str(time.time())[-6:-1] if avoid_overwrite else '1'  # avoids overwriting json files
 
 def record():
     mixer.init()
     timestamps = [0]
     lyrics = ['']
     wpm_list = []
+
     with open(LYRICS) as f:
         lyrics.extend(f.read().splitlines())
     mixer.music.load(FILE)
@@ -45,11 +49,9 @@ def record():
     timestamps.append(sys.maxsize)
     lyrics.append('')
 
-    with open('songs/' + SONG_NAME + '.json', 'w') as file:
-        json.dump(obj=vars(Song(TITLE, ARTIST, FILE, timestamps, lyrics, wpm_list)), fp=file)
+    with open('songs/' + JSON_FILENAME + '.json', 'w') as file:
+        json.dump(obj=vars(Song(TITLE, ARTIST, DURATION, FILE, timestamps, lyrics, wpm_list)), fp=file)
 
-
-#lyric_wpm = round(len(self.current_lyric) / 5 * 60 / (EXAMPLE_SONG.timestamps[self.next_index] - EXAMPLE_SONG.timestamps[self.next_index - 1]))
 
 if __name__ == '__main__':
     record()

@@ -10,9 +10,9 @@ Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
-TITLE = 'Short Song'
-ARTIST = 'Anon'
-FILE = 'songs/short_music.mp3'
+TITLE = 'Glad You Came'
+ARTIST = 'The Wanted'
+FILE = 'songs/glad_you_came.mp3'
 LYRICS = 'songs/short_lyrics.txt'
 DURATION = round(MP3(FILE).info.length)
 # debug

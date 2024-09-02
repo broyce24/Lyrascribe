@@ -22,13 +22,14 @@ import Levenshtein
 from Button import Button
 from Song import Song
 
-BG_IMG = "resources/background2.jpg"
-RESTART_IMG = "resources/restart_button.png"
-PLAY_IMG = "resources/play_button.png"
-STOP_IMG = "resources/stop.png"
-MAIN_MENU_IMG = "resources/main_menu.png"
-FONT_FILE = "resources/filled_font.ttf"
-NUMERIC_FONT_FILE = "resources/Roboto-Regular.ttf"
+BG_IMG = "resources/icons/background2.jpg"
+RESTART_IMG = "resources/icons/restart_button.png"
+PLAY_IMG = "resources/icons/play_button.png"
+STOP_IMG = "resources/icons/stop.png"
+CHOOSE_SONG_IMG = "resources/icons/choose_song.png"
+MAIN_MENU_IMG = "resources/icons/main_menu.png"
+FONT_FILE = "resources/fonts/filled_font.ttf"
+NUMERIC_FONT_FILE = "resources/fonts/Roboto-Regular.ttf"
 SCREEN_DIM = (1600, 900)
 # Use (1600, 900) for debugging
 WIDTH, HEIGHT = SCREEN_DIM
@@ -42,9 +43,11 @@ STOP_SIZE = (100, 100)
 STOP_LOCATION = (CENTER_WIDTH, 280)
 RESTART_SIZE = (150, 150)
 RESTART_LOCATION = (CENTER_WIDTH, CENTER_HEIGHT)
+CHOOSE_SONG_SIZE = (245, 66)
+CHOOSE_SONG_LOCATION = (CENTER_WIDTH, 280)
 LYRIC_SIZE = 100
 LYRIC_LOCATION = (25, 480)
-MAIN_MENU_SIZE = (300, 80)
+MAIN_MENU_SIZE = (300, 100)
 MAIN_MENU_LOCATION = (CENTER_WIDTH, 870)
 
 # Colors
@@ -105,7 +108,8 @@ class Typer:
         # debug song names
         # currently unused
         self.draw_bg()
-        self.draw_text(NAME, 80, 72, WHITE)
+        self.draw_text("Song Select", 80, 72, WHITE)
+
         song_ideas = (
             "Umbrella", "Don't Stop Believing", "Tequila", "Last Friday Night", "You Belong With Me", "Love Story",
             "Let Her Go", "The Nights")
@@ -118,10 +122,14 @@ class Typer:
             (121, 50, 0),
             (91, 20, 5),
             (56, 0, 0)
-
         )
         for i, song_name in enumerate(song_names):
             self.draw_text(song_name, 40 * i + 140, 100, colors[i])
+
+    def draw_choose_difficulty(self):
+        self.draw_bg()
+        self.draw_text("Choose a difficulty", 80, 72, WHITE)
+
 
     def draw_menu_screen(self):
         self.draw_bg()
@@ -230,9 +238,8 @@ class Typer:
                 if ctrl_a:
                     self.textinput.value = ""
                     ctrl_a = False
-                # debug
-                self.screen.blit(self.textinput.surface, lyric_rect)
-                print(lyric_rect, self.textinput.surface.get_rect())
+                if self.current_lyric:
+                    self.screen.blit(self.textinput.surface, lyric_rect)
                 if not self.on_final_lyric and self.current_lyric:
                     self.draw_text("Current lyric: " + str(self.current_song.wpm_list[self.next_index - 1]) + " WPM",
                                    760, 100, WHITE, NUMERIC_FONT_FILE)

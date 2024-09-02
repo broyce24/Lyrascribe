@@ -1,6 +1,7 @@
 import pygame
 
 
+
 class Button:
     buttons = []
     active_buttons = []

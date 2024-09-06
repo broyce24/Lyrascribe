@@ -71,8 +71,8 @@ class Typer:
         # Loading songs
         # debug
         self.songs = []
-        for song_name in os.listdir('songs/new_jsons'):
-            with open(os.path.join('songs/new_jsons', song_name), 'r') as file:
+        for song_name in os.listdir('songs/json_files'):
+            with open(os.path.join('songs/json_files', song_name), 'r') as file:
                 self.songs.append(json.load(file,
                                   object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
                                                                dct['timestamps'], dct['lyrics'])))

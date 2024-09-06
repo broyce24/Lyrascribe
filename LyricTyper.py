@@ -20,7 +20,7 @@ import pygame_textinput
 import Levenshtein
 
 from Button import Button
-from Song import Song2
+from Song import Song
 
 BG_IMG = "resources/icons/background2.jpg"
 RESTART_IMG = "resources/icons/restart_button.png"
@@ -76,7 +76,7 @@ class Typer:
             with open(os.path.join('songs/json_files', song_name), 'r') as file:
                 self.songs.append(
                     json.load(file,
-                              object_hook=lambda dct: Song2(dct['title'], dct['artist'], dct['duration'], dct['file'],
+                              object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
                                                            dct['timestamps'], dct['lyrics'])))
         self.current_song = self.songs[-1]
         #self.current_song = self.songs[-1]  # use this for debugging

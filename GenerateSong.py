@@ -71,5 +71,5 @@ if __name__ == '__main__':
         s.wpm_list.append(0)
         for t, l, w in zip(s.timestamps, s.lyrics, s.wpm_list):
             new_list.append([t, l, w])
-    with open("songs/json_files/dont_stop_believing2.json", "w") as file:
+    with open("songs/new_jsons/dont_stop_believing2.json", "w") as file:
         json.dump(obj=vars(Song2(s.title, s.artist, s.duration, s.file, new_list, s.lyrics)), fp=file)

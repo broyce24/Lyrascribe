@@ -77,7 +77,7 @@ class Typer:
                 self.songs.append(
                     json.load(file,
                               object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
-                                                           dct['timestamps'], dct['lyrics'])))
+                                                           dct['timestamps'], dct['lyrics'], dct['wpm_list'])))
         self.current_song = self.songs[-1]
         #self.current_song = self.songs[-1]  # use this for debugging
 

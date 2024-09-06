@@ -7,7 +7,7 @@ Text will be a few pixels off when lyric contains an ', then once typed it fits 
 background lyric rect being taller than the typing lyric rect until an apostrophe is typed, at which point they
 become the same size and fit perfectly."""
 
-# When song is clicked, draw play button
+# When song is clicked,  draw play button
 # self.play_button.draw(self.screen)
 
 import sys

@@ -1,0 +1,36 @@
+{
+  "title": "short",
+  "artist": "The Wanted",
+  "duration": 9.978775510204082,
+  "file": "songs/short_music.mp3",
+  "timestamps": [
+    [
+      0,
+      "",
+      0
+    ],
+    [
+      0.9833829402923584,
+      "this is the shortest song",
+      97
+    ],
+    [
+      4.084863662719727,
+      "i've ever sung",
+      29
+    ],
+    [
+      10.978775510204082,
+      "",
+      0
+    ]
+  ],
+  "lyrics": [
+    "",
+    "this is the shortest song",
+    "i've ever sung",
+    ""
+  ],
+  "max_wpm": 97,
+  "average_wpm": 126
+}

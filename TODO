@@ -1,0 +1,1 @@
+Change the self.textinput.surface's rect to be the original lyric's rect to avoid the misalignment due to apostrophes?

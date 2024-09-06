@@ -20,7 +20,7 @@ import pygame_textinput
 import Levenshtein
 
 from Button import Button
-from Song import Song
+from Song import Song2
 
 BG_IMG = "resources/icons/background2.jpg"
 RESTART_IMG = "resources/icons/restart_button.png"
@@ -32,9 +32,10 @@ FONT_FILE = "resources/fonts/filled_font.ttf"
 NUMERIC_FONT_FILE = "resources/fonts/Roboto-Regular.ttf"
 SCREEN_DIM = (1600, 900)
 # Use (1600, 900) for debugging
+# Can put back to 1920 x 1080
 WIDTH, HEIGHT = SCREEN_DIM
 CENTER_WIDTH, CENTER_HEIGHT = WIDTH // 2, HEIGHT // 2
-NAME = "LyricTyper"
+NAME = "Lyrascribe"
 
 # Button info
 PLAY_SIZE = (100, 100)
@@ -68,14 +69,17 @@ class Typer:
         self.running = False
 
         # Loading songs
+        # debug
+
         self.songs = []
         for song_name in os.listdir('songs/json_files'):
             with open(os.path.join('songs/json_files', song_name), 'r') as file:
                 self.songs.append(
                     json.load(file,
-                              object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
-                                                           dct['timestamps'], dct['lyrics'], dct['wpm_list'])))
-        self.current_song = self.songs[-1]  # use this for debugging
+                              object_hook=lambda dct: Song2(dct['title'], dct['artist'], dct['duration'], dct['file'],
+                                                           dct['timestamps'], dct['lyrics'])))
+        self.current_song = self.songs[-1]
+        #self.current_song = self.songs[-1]  # use this for debugging
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_song)
@@ -129,7 +133,6 @@ class Typer:
     def draw_choose_difficulty(self):
         self.draw_bg()
         self.draw_text("Choose a difficulty", 80, 72, WHITE)
-
 
     def draw_menu_screen(self):
         self.draw_bg()

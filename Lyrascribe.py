@@ -70,16 +70,14 @@ class Typer:
 
         # Loading songs
         # debug
-
         self.songs = []
-        for song_name in os.listdir('songs/json_files'):
-            with open(os.path.join('songs/json_files', song_name), 'r') as file:
-                self.songs.append(
-                    json.load(file,
-                              object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
-                                                           dct['timestamps'], dct['lyrics'], dct['wpm_list'])))
+        for song_name in os.listdir('songs/new_jsons'):
+            with open(os.path.join('songs/new_jsons', song_name), 'r') as file:
+                self.songs.append(json.load(file,
+                                  object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
+                                                               dct['timestamps'], dct['lyrics'])))
+        # debug until I get song select screen up
         self.current_song = self.songs[-1]
-        #self.current_song = self.songs[-1]  # use this for debugging
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_song)
@@ -90,9 +88,8 @@ class Typer:
         # Playing songs
         self.failure_rate = -1  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
         self.reaction_time = 0.5
-        self.next_index = 0
+        self.current_index = 0
         self.start_time = 0
-        self.current_lyric = ""
         self.total_accuracy = 0
         self.nonblank_lyrics = 0
         self.on_final_lyric = False
@@ -174,10 +171,9 @@ class Typer:
         self.play_song()
 
     def reset_song_values(self):
+        self.current_index = 0
         self.textinput.value = ""
-        self.next_index = 0
         self.start_time = 0
-        self.current_lyric = ""
         self.total_accuracy = 0
         self.nonblank_lyrics = 0
         self.on_final_lyric = False
@@ -233,44 +229,41 @@ class Typer:
                 self.draw_menu_screen()
 
             elif self.state == "Playing":
+                # debug
+                timestamp, lyric, wpm = self.current_song.timestamps[self.current_index]
+                next_timestamp = self.current_song.timestamps[self.current_index + 1][0]
+                print(self.current_index, timestamp, lyric, wpm)
+
                 self.draw_playing_screen()
-                lyric_rect = self.draw_text(self.current_lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)
+                lyric_rect = self.draw_text(lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)
                 # draw the user inputted text
                 # noinspection PyTypeChecker
                 self.textinput.update(events)
                 if ctrl_a:
                     self.textinput.value = ""
                     ctrl_a = False
-                if self.current_lyric:
+                if lyric:
                     self.screen.blit(self.textinput.surface, lyric_rect)
-                if not self.on_final_lyric and self.current_lyric:
-                    self.draw_text("Current lyric: " + str(self.current_song.wpm_list[self.next_index - 1]) + " WPM",
+                    self.draw_text("Current lyric: " + str(wpm) + " WPM",
                                    760, 100, WHITE, NUMERIC_FONT_FILE)
 
-                # move onto next lyric, clearing input text
-                if time.time() - self.start_time >= self.current_song.timestamps[self.next_index] - self.reaction_time:
+                # display current lyric once timestamp is reached
+                if time.time() - self.start_time >= next_timestamp - self.reaction_time:
                     # collect accuracy
-                    if self.current_lyric:
-                        current_acc = Levenshtein.ratio(self.textinput.value.lower(), self.current_lyric)
+                    if lyric:
+                        current_acc = Levenshtein.ratio(self.textinput.value.lower(), lyric)
                         if current_acc < self.failure_rate:
                             self.state = "Failure"
                         self.total_accuracy += current_acc
                         self.nonblank_lyrics += 1
                     self.textinput.value = ""
                     self.textinput.font_color = WHITE  # this fixes a bug
-                    self.current_lyric = self.current_song.lyrics[self.next_index]
-                    self.next_index += 1
-                    if self.current_song.timestamps[self.next_index] == sys.maxsize:
-                        self.on_final_lyric = True
-                elif not pygame.mixer.music.get_busy():
-                    # final lyric's accuracy
-                    current_acc = Levenshtein.ratio(self.textinput.value.lower(), self.current_lyric)
-                    if current_acc < self.failure_rate:
-                        self.state = "Failure"
-                    else:
+                    self.current_index += 1
+                    if next_timestamp == self.current_song.duration:
                         self.total_accuracy += current_acc
                         self.nonblank_lyrics += 1
                         self.state = "Results"
+
 
             elif self.state == "Failure":
                 self.draw_failure_screen()

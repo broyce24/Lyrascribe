@@ -1,0 +1,564 @@
+{
+  "title": "Umbrella",
+  "artist": "Rihanna",
+  "duration": 202,
+  "file": "songs/umbrella.mp3",
+  "timestamps": [
+    [
+      0,
+      "",
+      0
+    ],
+    [
+      1.284794807434082,
+      "you have my heart",
+      94
+    ],
+    [
+      3.4560441970825195,
+      "we'll never be worlds apart",
+      106
+    ],
+    [
+      6.518866062164307,
+      "maybe in magazines",
+      72
+    ],
+    [
+      9.534195899963379,
+      "but you'll still be my star",
+      107
+    ],
+    [
+      12.561242818832397,
+      "baby cause in the dark",
+      86
+    ],
+    [
+      15.631749153137207,
+      "you can't see shiny cars",
+      98
+    ],
+    [
+      18.57869052886963,
+      "and that's when you need me there",
+      131
+    ],
+    [
+      21.604955196380615,
+      "with you I'll always share",
+      91
+    ],
+    [
+      25.023499965667725,
+      "because",
+      54
+    ],
+    [
+      26.566057920455933,
+      "when the sun shine, we shine together",
+      146
+    ],
+    [
+      29.60447072982788,
+      "told you I'll be here forever",
+      114
+    ],
+    [
+      32.64557695388794,
+      "said I'll always be your friend",
+      141
+    ],
+    [
+      35.292962312698364,
+      "took an oath and I'm stick it out till the end",
+      158
+    ],
+    [
+      38.784029483795166,
+      "now that it's raining more than ever",
+      142
+    ],
+    [
+      41.83406448364258,
+      "know that we still have each other",
+      136
+    ],
+    [
+      44.84463858604431,
+      "you can stand under my umbrella",
+      125
+    ],
+    [
+      47.821253299713135,
+      "you can stand under my umbrella",
+      123
+    ],
+    [
+      50.83563280105591,
+      "ella",
+      60
+    ],
+    [
+      51.636638879776,
+      "ella",
+      61
+    ],
+    [
+      52.426438331604004,
+      "eh",
+      30
+    ],
+    [
+      53.216747522354126,
+      "eh",
+      33
+    ],
+    [
+      53.94572639465332,
+      "eh",
+      32
+    ],
+    [
+      54.68634343147278,
+      "under my umbrella",
+      91
+    ],
+    [
+      56.93141722679138,
+      "ella",
+      61
+    ],
+    [
+      57.723761320114136,
+      "ella",
+      67
+    ],
+    [
+      58.441805601119995,
+      "eh",
+      31
+    ],
+    [
+      59.22108268737793,
+      "eh",
+      31
+    ],
+    [
+      60.0018310546875,
+      "eh",
+      31
+    ],
+    [
+      60.777586460113525,
+      "under my umbrella",
+      91
+    ],
+    [
+      63.022085428237915,
+      "ella",
+      63
+    ],
+    [
+      63.78109550476074,
+      "ella",
+      62
+    ],
+    [
+      64.55094408988953,
+      "eh",
+      33
+    ],
+    [
+      65.28900337219238,
+      "eh",
+      31
+    ],
+    [
+      66.05856680870056,
+      "eh",
+      31
+    ],
+    [
+      66.83113241195679,
+      "under my umbrella",
+      92
+    ],
+    [
+      69.04433679580688,
+      "ella",
+      62
+    ],
+    [
+      69.8222131729126,
+      "ella",
+      65
+    ],
+    [
+      70.5577449798584,
+      "ella",
+      62
+    ],
+    [
+      71.3359649181366,
+      "eh",
+      31
+    ],
+    [
+      72.10263729095459,
+      "eh",
+      32
+    ],
+    [
+      72.8447437286377,
+      "eh",
+      17
+    ],
+    [
+      74.24213981628418,
+      "",
+      0
+    ],
+    [
+      84.99622631072998,
+      "under my umbrella",
+      70
+    ],
+    [
+      87.93054294586182,
+      "",
+      0
+    ],
+    [
+      97.2602322101593,
+      "under my umbrella",
+      55
+    ],
+    [
+      100.9678282737732,
+      "these fancy things",
+      79
+    ],
+    [
+      103.70194363594055,
+      "will never come in between",
+      105
+    ],
+    [
+      106.68281984329224,
+      "you're part of my entity",
+      94
+    ],
+    [
+      109.76165556907654,
+      "here for infinity",
+      67
+    ],
+    [
+      112.81678366661072,
+      "when the war has took its path",
+      123
+    ],
+    [
+      115.75003552436829,
+      "when the world has dealt its cards",
+      119
+    ],
+    [
+      119.18040108680725,
+      "if the hand is hard",
+      77
+    ],
+    [
+      122.14801955223083,
+      "together we'll mend your heart",
+      119
+    ],
+    [
+      125.17002511024475,
+      "because",
+      54
+    ],
+    [
+      126.719477891922,
+      "when the sun shine, we shine together",
+      146
+    ],
+    [
+      129.75864386558533,
+      "told you I'll be here forever",
+      116
+    ],
+    [
+      132.7715346813202,
+      "said I'll always be your friend",
+      141
+    ],
+    [
+      135.41169691085815,
+      "took an oath and I'm stick it out till the end",
+      155
+    ],
+    [
+      138.9721643924713,
+      "now that it's raining more than ever",
+      145
+    ],
+    [
+      141.9598789215088,
+      "know that we still have each other",
+      136
+    ],
+    [
+      144.96328210830688,
+      "you can stand under my umbrella",
+      125
+    ],
+    [
+      147.94552564620972,
+      "you can stand under my umbrella",
+      124
+    ],
+    [
+      150.9563217163086,
+      "ella",
+      59
+    ],
+    [
+      151.76532530784607,
+      "ella",
+      63
+    ],
+    [
+      152.53206253051758,
+      "eh",
+      30
+    ],
+    [
+      153.33898544311523,
+      "eh",
+      33
+    ],
+    [
+      154.06728339195251,
+      "eh",
+      31
+    ],
+    [
+      154.8483850955963,
+      "under my umbrella",
+      91
+    ],
+    [
+      157.09307503700256,
+      "ella",
+      63
+    ],
+    [
+      157.85125994682312,
+      "ella",
+      62
+    ],
+    [
+      158.62609910964966,
+      "eh",
+      31
+    ],
+    [
+      159.39400267601013,
+      "eh",
+      33
+    ],
+    [
+      160.12549138069153,
+      "eh",
+      30
+    ],
+    [
+      160.93290877342224,
+      "under my umbrella",
+      92
+    ],
+    [
+      163.1577925682068,
+      "ella",
+      63
+    ],
+    [
+      163.91461062431335,
+      "ella",
+      61
+    ],
+    [
+      164.69732642173767,
+      "eh",
+      30
+    ],
+    [
+      165.50345873832703,
+      "eh",
+      35
+    ],
+    [
+      166.18790650367737,
+      "eh",
+      31
+    ],
+    [
+      166.96237969398499,
+      "under my umbrella",
+      91
+    ],
+    [
+      169.20315957069397,
+      "ella",
+      61
+    ],
+    [
+      169.98731803894043,
+      "ella",
+      64
+    ],
+    [
+      170.74243807792664,
+      "ella",
+      62
+    ],
+    [
+      171.52013659477234,
+      "eh",
+      32
+    ],
+    [
+      172.26589632034302,
+      "eh",
+      32
+    ],
+    [
+      173.0105516910553,
+      "eh",
+      17
+    ],
+    [
+      174.44385409355164,
+      "",
+      0
+    ],
+    [
+      185.14129424095154,
+      "under my umbrella",
+      73
+    ],
+    [
+      187.9344301223755,
+      "",
+      0
+    ],
+    [
+      197.24262118339539,
+      "under my umbrella",
+      43
+    ],
+    [
+      202,
+      "",
+      0
+    ]
+  ],
+  "lyrics": [
+    "",
+    "you have my heart",
+    "we'll never be worlds apart",
+    "maybe in magazines",
+    "but you'll still be my star",
+    "baby cause in the dark",
+    "you can't see shiny cars",
+    "and that's when you need me there",
+    "with you I'll always share",
+    "because",
+    "when the sun shine, we shine together",
+    "told you I'll be here forever",
+    "said I'll always be your friend",
+    "took an oath and I'm stick it out till the end",
+    "now that it's raining more than ever",
+    "know that we still have each other",
+    "you can stand under my umbrella",
+    "you can stand under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "",
+    "under my umbrella",
+    "",
+    "under my umbrella",
+    "these fancy things",
+    "will never come in between",
+    "you're part of my entity",
+    "here for infinity",
+    "when the war has took its path",
+    "when the world has dealt its cards",
+    "if the hand is hard",
+    "together we'll mend your heart",
+    "because",
+    "when the sun shine, we shine together",
+    "told you I'll be here forever",
+    "said I'll always be your friend",
+    "took an oath and I'm stick it out till the end",
+    "now that it's raining more than ever",
+    "know that we still have each other",
+    "you can stand under my umbrella",
+    "you can stand under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "under my umbrella",
+    "ella",
+    "ella",
+    "ella",
+    "eh",
+    "eh",
+    "eh",
+    "",
+    "under my umbrella",
+    "",
+    "under my umbrella",
+    ""
+  ],
+  "max_wpm": 158,
+  "average_wpm": 76
+}

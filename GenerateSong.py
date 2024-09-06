@@ -1,7 +1,4 @@
 from Song import Song
-# debug
-from Song import Song2
-import sys
 from pygame import mixer
 import time
 import json
@@ -13,7 +10,7 @@ Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
 TITLE = 'short'
-ARTIST = 'The Wanted'
+ARTIST = 'idk'
 FILE = 'songs/short_music.mp3'
 LYRICS = 'songs/short_lyrics.txt'
 DURATION = MP3(FILE).info.length
@@ -33,7 +30,7 @@ def record():
     input("Press enter to start recording. Then press enter the moment each lyric starts.")
     mixer.music.play()
     start = time.time()
-    mixer.music.set_volume(0.1)
+    mixer.music.set_volume(0.2)
     line_num = 0
 
     # start generating timestamps
@@ -49,27 +46,13 @@ def record():
             break
     # end of song. last lyric should display until the song ends.
     wpm_list.append(round(len(lyrics[line_num]) / 5 * 60 / (DURATION - timestamps[line_num])))
-    timestamps.append(DURATION + 1)
+    timestamps.append(DURATION)
     lyrics.append('')
     wpm_list.append(0)
     reformatted_timestamps = [[t, l, w] for t, l, w in zip(timestamps, lyrics, wpm_list)]
     with open('songs/' + JSON_FILENAME + '.json', 'w') as file:
-        json.dump(obj=vars(Song2(TITLE, ARTIST, DURATION, FILE, reformatted_timestamps, lyrics)), fp=file)
+        json.dump(obj=vars(Song(TITLE, ARTIST, DURATION, FILE, reformatted_timestamps, lyrics)), fp=file)
 
 
 if __name__ == '__main__':
-    #record()
-
-    with open("songs/json_files/dont_stop_believing.json", "r") as file:
-        s = json.load(file,
-                  object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
-                                               dct['timestamps'], dct['lyrics'], dct['wpm_list']))
-        new_list = []
-        print(s.duration)
-        # wpm_list.append(round(len(lyrics[line_num]) / 5 * 60 / (DURATION - timestamps[line_num])))
-        s.wpm_list.append(round(len(s.lyrics[-2]) / 5 * 60 / (s.duration - s.timestamps[-1])))
-        s.wpm_list.append(0)
-        for t, l, w in zip(s.timestamps, s.lyrics, s.wpm_list):
-            new_list.append([t, l, w])
-    with open("songs/new_jsons/dont_stop_believing2.json", "w") as file:
-        json.dump(obj=vars(Song2(s.title, s.artist, s.duration, s.file, new_list, s.lyrics)), fp=file)
+    record()

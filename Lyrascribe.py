@@ -69,7 +69,6 @@ class Typer:
         self.running = False
 
         # Loading songs
-        # debug
         self.songs = []
         for song_name in os.listdir('songs/json_files'):
             with open(os.path.join('songs/json_files', song_name), 'r') as file:
@@ -77,7 +76,7 @@ class Typer:
                                   object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
                                                                dct['timestamps'], dct['lyrics'])))
         # debug until I get song select screen up
-        self.current_song = self.songs[-1]
+        self.current_song = self.songs[0]
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_song)
@@ -126,10 +125,6 @@ class Typer:
         )
         for i, song_name in enumerate(song_names):
             self.draw_text(song_name, 40 * i + 140, 100, colors[i])
-
-    def draw_choose_difficulty(self):
-        self.draw_bg()
-        self.draw_text("Choose a difficulty", 80, 72, WHITE)
 
     def draw_menu_screen(self):
         self.draw_bg()
@@ -232,7 +227,6 @@ class Typer:
                 # debug
                 timestamp, lyric, wpm = self.current_song.timestamps[self.current_index]
                 next_timestamp = self.current_song.timestamps[self.current_index + 1][0]
-                print(self.current_index, timestamp, lyric, wpm)
 
                 self.draw_playing_screen()
                 lyric_rect = self.draw_text(lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)

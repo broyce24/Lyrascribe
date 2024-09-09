@@ -9,10 +9,10 @@ Allows the user to create a song object with delays from a lyrics file.
 Outputs a file with the song's lyrics and delays.
 Press enter when each lyric starts.
 '''
-TITLE = 'short'
-ARTIST = 'idk'
-FILE = 'songs/short_music.mp3'
-LYRICS = 'songs/short_lyrics.txt'
+TITLE = 'Bad Liar'
+ARTIST = 'Imagine Dragons'
+FILE = 'songs/bad_liar.mp3'
+LYRICS = 'songs/bad_liar_lyrics.txt'
 DURATION = MP3(FILE).info.length
 # debug
 avoid_overwrite = False
@@ -34,7 +34,7 @@ def record():
     line_num = 0
 
     # start generating timestamps
-    while line_num < 5: # for debugging, while line_num < 5. When actually recording, make this infinite loop.
+    while True: # for debugging, while line_num < 5. When actually recording, make this infinite loop.
         input(f"{line_num}: {lyrics[line_num]}")
         timestamp = time.time() - start
         timestamps.append(timestamp)
@@ -53,6 +53,20 @@ def record():
     with open('songs/' + JSON_FILENAME + '.json', 'w') as file:
         json.dump(obj=vars(Song(TITLE, ARTIST, DURATION, FILE, reformatted_timestamps, lyrics)), fp=file)
 
+def recalculate_wpm(file_loc: str):
+    with open(file_loc, 'r') as file:
+        song = json.load(file,
+                  object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
+                                               dct['timestamps'], dct['lyrics']))
+    wpm_list = [entry[2] for entry in song.timestamps]
+    song.max_wpm = max(wpm_list)
+    nonempty_lyrics = sum(l != "" for l in song.lyrics)
+    song.average_wpm = round(sum(wpm_list) / (nonempty_lyrics - 1))
+    with open(file_loc, 'w') as file:
+        json.dump(obj=vars(song), fp=file)
+
+
 
 if __name__ == '__main__':
-    record()
+    #record()
+    recalculate_wpm('songs/json_files/bad_liar.json')

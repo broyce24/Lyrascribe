@@ -4,7 +4,7 @@ PLAY_IMG = "resources/icons/play_button.png"
 STOP_IMG = "resources/icons/stop.png"
 CHOOSE_SONG_IMG = "resources/icons/choose_song.png"
 MAIN_MENU_IMG = "resources/icons/main_menu.png"
-FONT_FILE = "resources/fonts/filled_font.ttf"
+FONT_FILE = "resources/fonts/filled_with_numbers1.ttf"
 NUMERIC_FONT_FILE = "resources/fonts/Roboto-Regular.ttf"
 # Use (1600, 900) for debugging
 SCREEN_DIM = (1920, 1080)

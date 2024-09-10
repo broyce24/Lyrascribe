@@ -20,7 +20,7 @@ class Song:
         self.lyrics = lyrics
         wpm_list = [entry[2] for entry in timestamps]
         self.max_wpm = max(wpm_list)
-        nonempty_lyrics = sum(l != "" for l in lyrics)
+        nonempty_lyrics = sum(bool(l) for l in lyrics)
         self.average_wpm = round(sum(wpm_list) / (nonempty_lyrics - 1))  # -1 cause last lyric's wpm doesn't count
 
     def play(self):

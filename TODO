@@ -1,7 +1,12 @@
 Change the self.textinput.surface's rect to be the original lyric's rect to avoid the misalignment due to apostrophes?
 
-Convert old JSON to new JSON format >>>>
+Add scrolling capability
 
-Rewrite lyric display method for new JSON format >>>
+Scale all text based on window size using pygame.transform?
 
-Problems:
+
+Done:
+
+Convert old JSON to new JSON format.
+
+Rewrite lyric display method for new JSON format.

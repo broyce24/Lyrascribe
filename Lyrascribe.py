@@ -42,7 +42,6 @@ class Typer:
                 curr_song = json.load(file, object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'],
                                                                          dct['file'],
                                                                          dct['timestamps'], dct['lyrics']))
-                print(curr_song.title)
                 self.songs.append(curr_song)
                 self.song_buttons.append(TextButton(f"{curr_song.title} - {curr_song.max_wpm}", i * 80 + 200, 80, WHITE, partial(self.play_song, curr_song)))
 
@@ -154,7 +153,7 @@ class Typer:
                 if event.type == pygame.QUIT:
                     self.running = False
                     sys.exit()
-                elif event.type == pygame.MOUSEBUTTONUP:
+                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     for button in Button.active_buttons:
                         if button.is_clicked(mouse_pos):
@@ -204,7 +203,6 @@ class Typer:
                     self.current_index += 1
                     if next_timestamp == self.current_song.duration:
                         self.state = "Results"
-                    print(self.total_accuracy)
 
             elif self.state == "Failure":
                 self.draw_failure_screen()

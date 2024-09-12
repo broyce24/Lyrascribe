@@ -51,10 +51,10 @@ class Typer:
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_game)
         self.restart_button = Button(RESTART_IMG, RESTART_SIZE, RESTART_LOCATION, lambda: self.play_song(self.current_song))
         self.stop_button = Button(STOP_IMG, STOP_SIZE, STOP_LOCATION, self.stop_song)
-        self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.draw_menu_screen)
+        self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
 
         # Playing songs
-        self.failure_rate = -1  # each lyric's accuracy must be above this to pass. debugging For testing, keep -1
+        self.failure_rate = 1  # each lyric's accuracy must be above this to pass. For debug, keep -1
         self.reaction_time = 0.5
         self.current_index = 0
         self.start_time = 0
@@ -101,14 +101,17 @@ class Typer:
                        760, 100, WHITE, NUMERIC_FONT_FILE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
+        # displaying button rects debug
+        # pygame.draw.rect(self.screen, BLACK, self.restart_button, 2)
+        # pygame.draw.rect(self.screen, BLACK, self.main_menu_button, 2)
 
     def draw_failure_screen(self):
-        self.current_song.stop()
         self.draw_bg()
         self.draw_text("Oops! You didn't quite get that one...", 380, 100, WHITE)
         self.draw_text("Try again?", HEIGHT // 2 + 140, 100, WHITE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
+
 
     def play_game(self):
         self.state = "Song Select"
@@ -123,6 +126,9 @@ class Typer:
     def stop_song(self):
         self.state = "Song Select"
         self.current_song.stop()
+
+    def return_to_menu(self):
+        self.state = "Menu"
 
     def reset_song_values(self):
         self.current_index = 0
@@ -148,6 +154,7 @@ class Typer:
 
         ctrl_a = False
         while self.running:
+
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
@@ -157,7 +164,7 @@ class Typer:
                     mouse_pos = pygame.mouse.get_pos()
                     for button in Button.active_buttons:
                         if button.is_clicked(mouse_pos):
-                            button.click()
+                            button.call()
                             break
                 elif event.type == pygame.KEYDOWN:
                     if pygame.key.get_mods() & pygame.KMOD_CTRL:
@@ -196,12 +203,14 @@ class Typer:
                     if lyric:
                         current_acc = Levenshtein.ratio(self.textinput.value.lower(), lyric)
                         if current_acc < self.failure_rate:
+                            self.current_song.stop()
                             self.state = "Failure"
                         self.total_accuracy += current_acc
                     self.textinput.value = ""
                     self.textinput.font_color = WHITE  # this fixes a bug
                     self.current_index += 1
                     if next_timestamp == self.current_song.duration:
+                        self.current_song.stop()
                         self.state = "Results"
 
             elif self.state == "Failure":

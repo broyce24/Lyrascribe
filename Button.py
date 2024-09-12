@@ -11,6 +11,7 @@ class Button:
 
     def __init__(self, img_file: str, size: tuple[int, int], center: tuple[int, int], func=lambda: None):
         self.img = pygame.transform.scale(pygame.image.load(img_file), size)
+        self.rect = self.img.get_rect(center=center)
         self.img_mask = pygame.mask.from_surface(self.img)
         self.blit_pos = (center[0] - size[0] / 2, center[1] - size[1] / 2)  # upper lefthand corner pixel location
         self.center = center
@@ -25,9 +26,6 @@ class Button:
             return self.img_mask.get_at(tuple(map(lambda i, j: i - j, mouse_pos, self.blit_pos)))
         except IndexError:
             return False
-
-    def click(self):
-        self.call()
 
 
 class TextButton(Button):

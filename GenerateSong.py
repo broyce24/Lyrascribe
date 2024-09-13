@@ -13,7 +13,7 @@ TITLE = 'Bad Liar'
 ARTIST = 'Imagine Dragons'
 FILE = 'songs/bad_liar.mp3'
 LYRICS = 'songs/bad_liar_lyrics.txt'
-DURATION = MP3(FILE).info.length
+DURATION = round(MP3(FILE).info.length)
 # debug
 avoid_overwrite = False
 JSON_FILENAME = FILE[FILE.find('/') + 1:FILE.find('.')] + str(time.time())[-6:-1] if avoid_overwrite else '1'  # avoids overwriting json files

@@ -43,9 +43,9 @@ class Typer:
                                                                          dct['file'],
                                                                          dct['timestamps'], dct['lyrics']))
                 self.songs.append(curr_song)
-                self.song_buttons.append(TextButton(f"{curr_song.title} - {curr_song.max_wpm}", i * 80 + 200, 80, WHITE, partial(self.play_song, curr_song)))
-
         self.songs.sort(key=lambda song: song.max_wpm)
+        for i, song in enumerate(self.songs):
+            self.song_buttons.append(TextButton(f"{song.title} - {song.max_wpm} WPM - {song.duration // 60}:{song.duration % 60}", i * 80 + 200, 80, WHITE, partial(self.play_song, song)))
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_game)
@@ -54,7 +54,7 @@ class Typer:
         self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
 
         # Playing songs
-        self.failure_rate = 1  # each lyric's accuracy must be above this to pass. For debug, keep -1
+        self.failure_rate = -1  # each lyric's accuracy must be above this to pass. For debug, keep -1
         self.reaction_time = 0.5
         self.current_index = 0
         self.start_time = 0
@@ -98,7 +98,7 @@ class Typer:
         nonblank_lyrics = sum(bool(l) for l in self.current_song.lyrics)
         final_acc = round(self.total_accuracy / nonblank_lyrics * 100, 1)
         self.draw_text("Accuracy:" + str(final_acc) + "%",
-                       760, 100, WHITE, NUMERIC_FONT_FILE)
+                       760, 100, WHITE, FONT_FILE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
         # displaying button rects debug

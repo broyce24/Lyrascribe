@@ -11,17 +11,15 @@ class Song:
     wpm_list: The WPM required to type each lyric.
     """
 
-    def __init__(self, title: str, artist: str, duration: int, file: str, timestamps: list[list], lyrics: list[str]):
+    def __init__(self, title: str, artist: str, duration: int, file: str, timestamps: list[list], lyrics: list[str], max_wpm: int, average_wpm: int):
         self.title = title
         self.artist = artist
         self.duration = duration
         self.file = file
         self.timestamps = timestamps
         self.lyrics = lyrics
-        wpm_list = [entry[2] for entry in timestamps]
-        self.max_wpm = max(wpm_list)
-        nonempty_lyrics = sum(bool(l) for l in lyrics)
-        self.average_wpm = round(sum(wpm_list) / (nonempty_lyrics - 1))  # -1 cause last lyric's wpm doesn't count
+        self.max_wpm = max_wpm
+        self.average_wpm = average_wpm
 
     def play(self):
         mixer.init()

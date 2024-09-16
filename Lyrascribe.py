@@ -41,17 +41,18 @@ class Typer:
             with open(os.path.join('songs/json_files', song_name), 'r') as file:
                 curr_song = json.load(file, object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'],
                                                                          dct['file'],
-                                                                         dct['timestamps'], dct['lyrics']))
+                                                                         dct['timestamps'], dct['lyrics'], dct['max_wpm'], dct['average_wpm']))
                 self.songs.append(curr_song)
         self.songs.sort(key=lambda song: song.max_wpm)
         for i, song in enumerate(self.songs):
-            self.song_buttons.append(TextButton(f"{song.title} - {song.max_wpm} WPM - {song.duration // 60}:{song.duration % 60}", i * 80 + 200, 80, WHITE, partial(self.play_song, song)))
+            self.song_buttons.append(TextButton(f"{song.title} - {song.max_wpm} WPM - {song.duration // 60}:{(song.duration % 60):02}", i * 80 + 200, 80, WHITE, partial(self.play_song, song)))
 
         # Buttons
         self.play_button = Button(PLAY_IMG, PLAY_SIZE, PLAY_LOCATION, self.play_game)
         self.restart_button = Button(RESTART_IMG, RESTART_SIZE, RESTART_LOCATION, lambda: self.play_song(self.current_song))
         self.stop_button = Button(STOP_IMG, STOP_SIZE, STOP_LOCATION, self.stop_song)
         self.main_menu_button = Button(MAIN_MENU_IMG, MAIN_MENU_SIZE, MAIN_MENU_LOCATION, self.return_to_menu)
+        self.close_button = Button(CLOSE_IMG, CLOSE_SIZE, CLOSE_LOCATION, sys.exit)
 
         # Playing songs
         self.failure_rate = -1  # each lyric's accuracy must be above this to pass. For debug, keep -1
@@ -66,6 +67,8 @@ class Typer:
     def draw_bg(self):
         self.screen.blit(self.bg_img, (0, 0))
         Button.clear_active_buttons()
+        self.close_button.draw(self.screen)
+
 
     def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE):
         """
@@ -111,7 +114,6 @@ class Typer:
         self.draw_text("Try again?", HEIGHT // 2 + 140, 100, WHITE)
         self.restart_button.draw(self.screen)
         self.main_menu_button.draw(self.screen)
-
 
     def play_game(self):
         self.state = "Song Select"
@@ -194,8 +196,8 @@ class Typer:
                     ctrl_a = False
                 if lyric:
                     self.screen.blit(self.textinput.surface, lyric_rect)
-                    self.draw_text("Current lyric: " + str(wpm) + " WPM",
-                                   760, 100, WHITE, NUMERIC_FONT_FILE)
+                    self.draw_text("Current Lyric: " + str(wpm) + " WPM",
+                                   760, 100, WHITE, FONT_FILE)
 
                 # display current lyric once timestamp is reached
                 if time.time() - self.start_time >= next_timestamp - self.reaction_time:

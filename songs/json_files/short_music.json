@@ -1,1 +1,41 @@
-{"title": "Short Song", "artist": "Anon", "duration": 10, "file": "songs/short_music.mp3", "timestamps": [[0, "", 0], [1.0221800804138184, "this is the shortest song", 101], [3.9797427654266357, "i've ever sung", 98], [5.693410634994507, "", 0], [10, "", 0]], "lyrics": ["", "this is the shortest song", "i've ever sung", ""], "max_wpm": 101, "average_wpm": 99.5}
+{
+  "title": "Short Song",
+  "artist": "Anon",
+  "duration": 10,
+  "file": "songs/short_music.mp3",
+  "timestamps": [
+    [
+      0,
+      "",
+      0
+    ],
+    [
+      1.0221800804138184,
+      "this is the shortest song",
+      101
+    ],
+    [
+      3.9797427654266357,
+      "i've ever sung",
+      98
+    ],
+    [
+      5.693410634994507,
+      "",
+      0
+    ],
+    [
+      10,
+      "",
+      0
+    ]
+  ],
+  "lyrics": [
+    "",
+    "this is the shortest song",
+    "i've ever sung",
+    ""
+  ],
+  "max_wpm": 101,
+  "average_wpm": 99.5
+}

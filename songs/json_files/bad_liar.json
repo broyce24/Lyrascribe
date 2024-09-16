@@ -41,7 +41,7 @@
     ],
     [
       40.36226415634155,
-      "i'm a man of three fears",
+      "I'm a man of three fears",
       91
     ],
     [
@@ -86,22 +86,22 @@
     ],
     [
       69.21129608154297,
-      "i wish i could escape",
+      "I wish I could escape",
       86
     ],
     [
       72.1516969203949,
-      "i don't wanna fake it",
+      "I don't wanna fake it",
       88
     ],
     [
       75.01337122917175,
-      "wish i could erase it, make your heart believe",
+      "wish I could erase it, make your heart believe",
       131
     ],
     [
       79.22368741035461,
-      "but i'm a bad liar",
+      "but I'm a bad liar",
       60
     ],
     [
@@ -121,7 +121,7 @@
     ],
     [
       90.31953573226929,
-      "i'm a bad liar",
+      "I'm a bad liar",
       52
     ],
     [
@@ -156,18 +156,18 @@
     ],
     [
       124.52678036689758,
-      "i wage my war on the world inside",
-      76
+      "I wage my war on the world inside",
+      74
     ],
     [
       129.8681502342224,
-      "i take my gun to the enemy's side",
+      "I take my gun to the enemy's side",
       72
     ],
     [
       135.3375949859619,
       "oh, i've been asking",
-      110
+      91
     ],
     [
       137.96382761001587,
@@ -196,22 +196,22 @@
     ],
     [
       155.50056552886963,
-      "i wish i could escape",
+      "I wish I could escape",
       87
     ],
     [
       158.4077672958374,
-      "i don't wanna fake it",
+      "I don't wanna fake it",
       88
     ],
     [
       161.26949620246887,
-      "wish i could erase it, make your heart believe",
+      "wish I could erase it, make your heart believe",
       131
     ],
     [
       165.48475432395935,
-      "but i'm a bad liar",
+      "but I'm a bad liar",
       60
     ],
     [
@@ -231,7 +231,7 @@
     ],
     [
       176.71195673942566,
-      "that i'm a bad liar",
+      "that I'm a bad liar",
       69
     ],
     [
@@ -246,17 +246,17 @@
     ],
     [
       189.20380449295044,
-      "i can't breathe",
+      "I can't breathe",
       57
     ],
     [
       192.36431336402893,
-      "i can't be",
+      "I can't be",
       58
     ],
     [
       194.44175505638123,
-      "i can't be what you want me to be",
+      "I can't be what you want me to be",
       60
     ],
     [
@@ -271,7 +271,7 @@
     ],
     [
       209.07388377189636,
-      "i'm a bad liar",
+      "I'm a bad liar",
       54
     ],
     [
@@ -291,7 +291,7 @@
     ],
     [
       219.71123504638672,
-      "that i'm a bad liar",
+      "that I'm a bad liar",
       69
     ],
     [
@@ -317,7 +317,12 @@
     [
       247.7103123664856,
       "please believe me",
-      17
+      68
+    ],
+    [
+      250.71,
+      "",
+      0
     ],
     [
       259.8922448979592,
@@ -333,7 +338,7 @@
     "trust me, darling",
     "",
     "it's been a loveless year",
-    "i'm a man of three fears",
+    "I'm a man of three fears",
     "integrity, faith and crocodile tears",
     "trust me, darling",
     "trust me, darling",
@@ -342,50 +347,50 @@
     "tell me what you see",
     "perfect paradise",
     "tearing at the seams",
-    "i wish i could escape",
-    "i don't wanna fake it",
-    "wish i could erase it",
+    "I wish I could escape",
+    "I don't wanna fake it",
+    "wish I could erase it",
     "make your heart believe",
-    "but i'm a bad liar",
+    "but I'm a bad liar",
     "bad liar",
     "now you know",
     "now you know",
-    "i'm a bad liar",
+    "I'm a bad liar",
     "bad liar",
     "now you know, you're free to go",
     "did all my dreams never mean one thing",
     "does happiness lie in a diamond ring",
     "oh, i've been asking",
     "oh, i've been asking for problems, problems, problems",
-    "i wage my war on the world inside",
-    "i take my gun to the enemy's side",
+    "I wage my war on the world inside",
+    "I take my gun to the enemy's side",
     "oh, i've been asking",
     "oh, i've been asking for problems, problems, problems",
     "so look me in the eyes",
     "tell me what you see",
     "perfect paradise",
     "tearing at the seams",
-    "i wish i could escape",
-    "i don't wanna fake it",
-    "wish i could erase it",
+    "I wish I could escape",
+    "I don't wanna fake it",
+    "wish I could erase it",
     "make your heart believe",
-    "but i'm a bad liar",
+    "but I'm a bad liar",
     "bad liar",
     "now you know",
     "now you know",
-    "that i'm a bad liar",
+    "that I'm a bad liar",
     "bad liar",
     "now you know, you're free to go",
-    "i can't breathe",
-    "i can't be",
-    "i can't be what you want me to be",
+    "I can't breathe",
+    "I can't be",
+    "I can't be what you want me to be",
     "believe me, this one time",
     "believe me",
-    "i'm a bad liar",
+    "I'm a bad liar",
     "bad liar",
     "now you know",
     "now you know",
-    "that i'm a bad liar",
+    "that I'm a bad liar",
     "bad liar",
     "now you know, you're free to go",
     "",
@@ -394,5 +399,5 @@
     ""
   ],
   "max_wpm": 131,
-  "average_wpm": 70
+  "average_wpm": 72
 }

@@ -5,18 +5,17 @@ import json
 from mutagen.mp3 import MP3
 
 '''
-Allows the user to create a song object with delays from a lyrics file.
-Outputs a file with the song's lyrics and delays.
-Press enter when each lyric starts.
+Lyrics file should end WITH TWO BLANK LINES.
+Outputs a song object as a JSON.
+Press enter when each lyric starts, and when last lyric is done.
 '''
-TITLE = 'Bad Liar'
-ARTIST = 'Imagine Dragons'
-FILE = 'songs/bad_liar.mp3'
-LYRICS = 'songs/bad_liar_lyrics.txt'
+TITLE = 'Short Song'
+ARTIST = 'Anon'
+FILE = 'songs/short_music.mp3'
+LYRICS = 'songs/short_lyrics.txt'
 DURATION = round(MP3(FILE).info.length)
 # debug
-avoid_overwrite = False
-JSON_FILENAME = FILE[FILE.find('/') + 1:FILE.find('.')] + str(time.time())[-6:-1] if avoid_overwrite else '1'  # avoids overwriting json files
+JSON_FILENAME = FILE[FILE.find('/') + 1:FILE.find('.')]
 
 def record():
     mixer.init()
@@ -45,28 +44,36 @@ def record():
             print(f"{line_num}: {lyrics[line_num]}")
             break
     # end of song. last lyric should display until the song ends.
-    wpm_list.append(round(len(lyrics[line_num]) / 5 * 60 / (DURATION - timestamps[line_num])))
-    timestamps.append(DURATION)
-    lyrics.append('')
     wpm_list.append(0)
-    reformatted_timestamps = [[t, l, w] for t, l, w in zip(timestamps, lyrics, wpm_list)]
+    reformatted_timestamps = [[t, l, w] for t, l, w in zip(timestamps, lyrics, wpm_list)] + [[DURATION, '', 0]]
+    max_wpm = max(wpm_list)
+    avg_wpm = sum(wpm_list) / sum(bool(l) for l in lyrics)
     with open('songs/' + JSON_FILENAME + '.json', 'w') as file:
-        json.dump(obj=vars(Song(TITLE, ARTIST, DURATION, FILE, reformatted_timestamps, lyrics)), fp=file)
+        json.dump(obj=vars(Song(TITLE, ARTIST, DURATION, FILE, reformatted_timestamps, lyrics, max_wpm, avg_wpm)), fp=file)
+    exit("Finished.")
 
-def recalculate_wpm(file_loc: str):
-    with open(file_loc, 'r') as file:
+def update_wpm(FILE: str):
+    with open(FILE, 'r') as file:
         song = json.load(file,
                   object_hook=lambda dct: Song(dct['title'], dct['artist'], dct['duration'], dct['file'],
-                                               dct['timestamps'], dct['lyrics']))
-    wpm_list = [entry[2] for entry in song.timestamps]
-    song.max_wpm = max(wpm_list)
-    nonempty_lyrics = sum(l != "" for l in song.lyrics)
-    song.average_wpm = round(sum(wpm_list) / (nonempty_lyrics - 1))
-    with open(file_loc, 'w') as file:
-        json.dump(obj=vars(song), fp=file)
+                                               dct['timestamps'], dct['lyrics'], dct['max_wpm'], dct['average_wpm']))
+    maxwpm = 0
+    nonempty_lyrics = 0
+    sumwpm = 0
+    for i in range(len(song.timestamps) - 1):
+        song.timestamps[i][2] = 0 if not song.timestamps[i][1] else round(len(song.timestamps[i][1]) / 5 * 60 / (song.timestamps[i + 1][0] - song.timestamps[i][0]))
+        sumwpm += song.timestamps[i][2]
+        if song.timestamps[i][2] > maxwpm:
+            maxwpm = song.timestamps[i][2]
+        if bool(song.timestamps[i][1]):
+            nonempty_lyrics += 1
 
+    song.max_wpm = maxwpm
+    song.average_wpm = round(sumwpm / nonempty_lyrics)
+    with open(FILE, 'w') as file:
+        json.dump(obj=vars(song), fp=file)
 
 
 if __name__ == '__main__':
     #record()
-    recalculate_wpm('songs/json_files/bad_liar.json')
+    update_wpm('songs/json_files/bad_liar.json')

@@ -6,7 +6,6 @@ LYRIC_LOCATION = (25, 480)
 
 CHOOSE_SONG_IMG = "resources/icons/choose_song.png"
 
-
 FONT_FILE = "resources/fonts/SunnyspellsRegular.otf"
 # Use (1600, 900) for debugging
 SCREEN_DIM = (1920, 1080)

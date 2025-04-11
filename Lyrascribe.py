@@ -188,14 +188,14 @@ class Typer:
 
                 self.draw_playing_screen()
                 lyric_rect = self.draw_text(lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)
-                # draw the user inputted text
                 # noinspection PyTypeChecker
                 self.textinput.update(events)
                 if ctrl_a:
                     self.textinput.value = ""
                     ctrl_a = False
                 if lyric:
-                    self.screen.blit(self.textinput.surface, lyric_rect)
+                    # draw the user inputted text, offset to create shadow effect
+                    self.screen.blit(self.textinput.surface, lyric_rect.move(7, 0))
                     self.draw_text("Current Lyric: " + str(wpm) + " WPM",
                                    760, 100, WHITE, FONT_FILE)
 

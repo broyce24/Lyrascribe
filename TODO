@@ -4,8 +4,11 @@ Add scrolling capability
 
 Scale all text based on window size using pygame.transform?
 
+Prevent user from typing capital letters (it messes up the text offset)
 
 Done:
+
+Offset typed lyrics a bit to the left to give the text a shadow - 4/11/25
 
 Convert old JSON to new JSON format.
 

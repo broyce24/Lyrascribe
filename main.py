@@ -70,14 +70,15 @@ class Typer:
         self.close_button.draw(self.screen)
 
 
-    def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE):
+    def draw_text(self, text, y_value, font_size, text_color, font_file=FONT_FILE, draw=True):
         """
         Draws text centered at y_value.
         Returns the rect of the text that was drawn.
         """
         font = pygame.font.Font(font_file, font_size)
         text_surface = font.render(text, True, text_color)
-        self.screen.blit(text_surface, text_surface.get_rect(center=(CENTER_X, y_value)))
+        if draw:
+            self.screen.blit(text_surface, text_surface.get_rect(center=(CENTER_X, y_value)))
         return text_surface.get_rect(center=(CENTER_X, y_value))
 
     def draw_menu_screen(self):
@@ -187,7 +188,11 @@ class Typer:
                 next_timestamp = self.current_song.timestamps[self.current_index + 1][0]
 
                 self.draw_playing_screen()
+
+                # adjust lyric if too big
                 lyric_rect = self.draw_text(lyric, LYRIC_LOCATION[1], LYRIC_SIZE, BLACK)
+
+
                 # noinspection PyTypeChecker
                 self.textinput.update(events)
                 if ctrl_a:
@@ -197,7 +202,7 @@ class Typer:
                     # draw the user inputted text, offset to create shadow effect
                     self.screen.blit(self.textinput.surface, lyric_rect.move(7, 0))
                     self.draw_text("Current Lyric: " + str(wpm) + " WPM",
-                                   760, 100, WHITE, FONT_FILE)
+                                   760, LYRIC_SIZE, WHITE, FONT_FILE)
 
                 # display current lyric once timestamp is reached
                 if time.time() - self.start_time >= next_timestamp - self.reaction_time:

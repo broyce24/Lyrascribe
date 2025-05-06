@@ -1,7 +1,7 @@
 NAME = "Lyrascribe"
 BG_IMG = "resources/icons/background2.jpg"
 
-LYRIC_SIZE = 100
+LYRIC_SIZE = 90
 LYRIC_LOCATION = (25, 480)
 
 CHOOSE_SONG_IMG = "resources/icons/choose_song.png"
